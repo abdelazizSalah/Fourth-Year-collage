@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Book Store</h1>
+        <p> This is My <b>Book Store</b>, Welcome!  </p>
+        <table border="1">
+            <!-- 
+                thead : bn7ot el columns names
+                tbody : bn7ot feh el data baa. 
+                tfoot : bn7ot feh el totals msln aw ay haga 3auz t7otha t7t baa.
+                el tags de momken no7tha w momken laa, lakn el best-practice hya eno n7otha.
+                w da 34an lw enta 7ata ghyrt trtebhom tfoot-thead-tbody, brdu hy3mlhom draw
+                bl shakl el salem, lakn ehna mmkn mn7othomsh 3ady w el gadwal hytl3 bnfs el shakl bzbt. 
+                caption: da byb2a el esm fo2 el table, by3rfk el table da bytklm 3n a.
+            -->
+             <!-- 
+                tr -> table row.
+                td -> table data. 
+                th -> header cell, w byb2a el font bta3ha bold w centered. 
+              -->
+              <!-- mmkn t3ml design lel table b attributes, lakn ehna mbn3mlsh keda
+            34an el mfrod nzbt el design bl CSS -->
+            <!-- 
+                merging two cells or more: 
+                fekrtha enk 3auz one cell takhud mesa7a akbur shwya
+                by default kol cell bta5ud mkan wahed. 
+                lw 3azha takhul two columns bn2ol: colspan ="2"
+                lw 3auzha takhud three rows bn2ol : rowspan = "3"
+                el klam da attributes gowa el <td> or <th> tag.
+             -->
+            <caption>
+                Student Books
+            </caption>
+             <thead>
+                    <tr>
+                        <th>Book Name</th>
+                        <th colspan="2">Book Price</th>
+                       
+                    </tr>
+             </thead>
+             <tbody>
+                    <tr>
+                        <td>Book 1</td>
+                        <td><del>300</del></td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Book 2</td>
+                        <td><del>300</del></td>
+                        <td>200</td>
+                    </tr>
+                    <tr>
+                        <td>Book 3</td>
+                        <td><del>300</del></td>
+                        <td>300</td>
+                    </tr>
+             </tbody>
+             <tfoot>
+                    <tr>
+                        <td rowspan="2">Total</td>
+                        <td colspan="2"><del>900</del></td>
+                    </tr>
+                    <tr ><td colspan="2">
+                        600
+                    </td></tr>
+             </tfoot>
+        </table>
+    </body>
+</html>
