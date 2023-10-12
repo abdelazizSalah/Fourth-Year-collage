@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- 
+            some form attributes: 
+                1. novalidate: mby3mlshh ay validation 3la ay input fl form. 
+                2. target: lama bt3ml submit bywdek 3la el result screen, w 3la 7asab enta 3amlha a baa. 
+                    lw 3amelha _blank hyft7lk tab gded. 
+         -->
+        <form novalidate>
+            <header>
+                <h1> Files, Search, URL, and Time</h1>
+            </header>
+            <section>
+                <p>
+                    This is how we use each element:
+                </p>
+                <p>
+                    <b>Files:</b>
+                    <br>
+                    <!--  bytl3lk button tdos 3leh yft7lk file picker mn el device bta3ks -->
+                    <input type="file" name="file" id="file">
+                </p>
+                <p>
+                    <!--  da lw 3auz t3ml search 3la haga, fa byb2a search filed, w tdos 3la x yms7 kol haga -->
+                    <b>Search:</b>
+                    <br>
+                    <!--  bytl3lk button tdos 3leh yft7lk search bar -->
+                    <input type="search" name="search" id="search">
+                </p>
+                <p>
+                    <!--  da lw 3auz t3ml url 3la haga, fa byb2a url filed, w tdos 3la x yms7 kol haga -->
+                    <b>URL:</b>
+                    <br>
+                    <!--  bytl3lk button tdos 3leh yft7lk url bar -->
+                    <input type="url" name="url" id="url">
+                </p>
+                <!-- month, date and time -->
+                <p>
+                    <b>Month:</b>
+                    <br>
+                    <!--  bytl3lk button tdos 3leh yft7lk month picker -->
+                    <input type="month" name="month" id="month">
+                </p>
+
+                <p>
+                    <b>date:</b>
+                    <br>
+                    <!--  bytl3lk button tdos 3leh yft7lk date picker -->
+                    <input type="date" name="date" id="date">
+                </p>
+                <p>
+                    <b>time:</b>
+                    <br>
+                    <!--  bytl3lk button tdos 3leh yft7lk time picker -->
+                    <input type="time" name="time" id="time">
+                </p>
+                <input list="programming" name="prog">
+                <!-- el datalist el 7lw feha en momken t3ml search b7rof, fhwa hygblk 
+                ay option feh el sring el enta d5lto dah. -->
+                <datalist id="programming">
+                    <option value="C++"></option>
+                    <option value="C#"></option>
+                    <option value="Java"></option>
+                    <option value="Python"></option>
+                    <option value="JavaScript"></option>
+                </datalist>
+                <hr>
+                <input type="submit" name id>
+            </section>
+        </form>
+    </body>
+</html>
