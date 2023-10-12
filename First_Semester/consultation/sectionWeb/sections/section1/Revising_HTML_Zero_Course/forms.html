@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        This is My <b>Book Store</b>, Welcome!
+    </header>
+    <!-- 
+            ! Form Attributes.
+            * action: da el path el hnb3t el byanat elly fel form leh, aw el endpoint y3ny.
+                * lama bndos submit, byro7 lel path da w byft7holk fl shasha.
+                * lw msh 7atet action, hyb3t el data le nfs el saf7a elly enta wa2f feha. 
+            * method: da el method elly hnb3to el byanat elly fel form leh
+                1. POST -> el data msh btzhr fl string query. 
+                2. GET -> el data btzhr fl string query.
+                3. PUT
+                4. DELETE 
+                5. etc...
+         -->
+         <br>
+    <form action="zizo.js" method="POST">
+        <input type="hidden" name="hidden to put things that normal user should not see.">
+        <!--  
+                This is one of the most important parts in html. 
+                It's the form tag.
+                It's used to send data to the server.
+                It has many attributes, but the most important ones are:
+                * action: it's the path of the file that will handle the data.
+                * method: it's the method that will be used to send the data.
+                * enctype: it's the type of the data that will be sent.
+                * target: it's the target of the data that will be sent.
+                * name: it's the name of the form.
+                * id: it's the id of the form.
+             --
+            <div>
+                <!--
+                      This is the label, which is a text defined for certain entry field
+                      Best practice is to use to make the entry field more understandable.
+                -->
+        <label for="username"> UserName </label>
+
+        <!-- ! This is the entry field. -->
+        <!-- 
+                    This is the input tag.
+                    It is a self closing tag. 
+                    It's used to get data from the user.
+                    It has many attributes, but the most important ones are:
+                    * type: it's the type of the data that will be entered.
+                        ! text: it's used to get text.
+                        ! password: it's used to get password.
+                        ! email: it's used to get email.
+                        ! number: it's used to get number.
+                        ! date: it's used to get date.
+                        ! time: it's used to get time.
+                        ! datetime: it's used to get datetime.
+                    * name: it's the name of the input.
+                    * id: it's the id of the input.
+                    * value: it's the default value of the input.
+                    * placeholder: it's the placeholder of the input.
+                    * required: it's used to make the input required.
+                    * autofocus: it's used to make the input focused.
+                    * disabled: it's used to make the input disabled.
+                    * readonly: it's used to make the input readonly.
+                    * size: it's used to make the input size.
+                    * maxlength: it's used to make the input maxlength.
+                    * minlength: it's used to make the input minlength.
+                    * pattern: it's used to make the input pattern.
+                    * multiple: it's used to make the input multiple.
+                    * autocomplete: it's used to make the input autocomplete.
+                    * list: it's used to make the input list.
+                    * form: it's used to make the input form.
+                    * formaction: it's used to make the input formaction.
+                    * formenctype: it's used to make the input formenctype.
+                    * formmethod: it's used to make the input formmethod.
+                    * formnovalidate: it's used to make the input formnovalidate.
+                    * formtarget: it's used to make the input formtarget.
+                    * height: it's used to make the input height.
+                    * width: it's used to make the input width.
+                    * alt: it's used to make the input alt.
+                    * src: it's used to make the input src.
+                    * accept: it's used to make the input accept.
+                    * accept-charset: it's used to make the input accept-charset.
+                    * checked: it's used to make the input checked.
+                    * formenctype: it's used to make the input formenctype.
+                    * formmethod: it's used to make the input formmethod.
+                    * formnovalidate: it's used to make the input formnovalidate.
+                    * formtarget: it's used to make the input formtarget.
+                    * height: it's
+                 -->
+        <input autofocus type="text" name="username" id="username" placeholder="Enter your username" required>
+        </div>
+        <br>
+        <br>
+        <div>
+            
+            <label for="password"> Password</label>
+            <input type="password" minlength="8" maxlength="20" name="password" id="username" placeholder="Password"
+            required>
+        </div>
+        <br>
+        <div>
+            <label for="ReadOnly"> Read Only </label>
+            <input type="text" placeholder="ReadOnly" name="ReadOnly" readonly>
+        </div>
+        <br>
+        <div>
+
+            <label for="email"> Email</label>
+            <input type="email" name="email" value="abdelaziz132001@gmail.com" required>
+        </div>
+        <br>
+        <div>
+
+            <label for="disabled"> disabled</label>
+            <input type="text" name="disabled" disabled value="This Content will not be sent to the backend" required>
+        </div>
+        <br>
+        <!-- 
+                Lama bndos 3la zorar el submit, byro7 ye3ml submit lel action path elly fl form
+                w lw enta m5ly el method GET, sa3tha htla2y fl query string el fl url kol el data el d5ltha, 
+                w htla2y el name=
+             -->
+        <input type="submit" name="submit" placeholder="Submit" value="Submit">
+        <input type="reset" name="reset" placeholder="reset" value="reset">
+
+        <!-- Color picker. -->
+        <input type="color">
+
+        <input type="range" name="range" min="0" max="100" step="5" value="50">
+        <input type="number" name="number" min="0" max="100" step="5" value="50">
+    </form>
+
+
+</body>
+
+</html>
+<!-- 
+    ? required attribute, by5leh y3ml validation en el data de dakhla aslun, w lw email, flazm 
+    ? ykon mdkhlo bl format el mazbot. 
+
+    * value: da byb2a initial value gowa el field.
+    * placeholder: da byb2a placeholder gowa el field.
+ -->
+
+<!-- 
+    The difference between disabled and readonly. 
+    * disabled: it's used to make the input disabled, fa da m3nah en law 3mlt submit, hwa msh byb3t 
+    el data elly feha lel server.
+    * Readonly: bt5ly el text m7dsh ye2dr y8yr fl kema bt3to bs.
+  -->
+<!-- 
+    Auto focus 
+    da 3auzo en lama a3ml refresh lel page, ykon el focus 3la el field da awl haga. 
+   -->
