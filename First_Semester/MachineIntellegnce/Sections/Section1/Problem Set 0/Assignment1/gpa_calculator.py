@@ -2,6 +2,7 @@ from typing import List
 from college import Student, Course
 import utils
 
+
 def calculate_gpa(student: Student, courses: List[Course]) -> float:
     '''
     This function takes a student and a list of course
@@ -11,5 +12,14 @@ def calculate_gpa(student: Student, courses: List[Course]) -> float:
     But you can convert the grades to points using a static method in the course class
     To know how to use the Student and Course classes, see the file "college.py"  
     '''
-    #TODO: ADD YOUR CODE HERE
-    utils.NotImplemented()
+    sum: int = 0
+    total_hours: int = 0
+    for course in courses:
+        if(student.id in course.grades):
+            sum += (course.hours *
+                    Course.convert_grade_to_points(course.grades[student.id]))
+            total_hours += course.hours
+    if (total_hours):
+        return sum / total_hours
+    return 0.0
+    #####!-----!####
