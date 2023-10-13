@@ -9,5 +9,10 @@ def histogram(values: List[Any]) -> Dict[Any, int]:
     For example, if the values are [3,5,3] then the result should be {3:2, 5:1} 
     since 3 appears twice while 5 appears once 
     '''
-    #TODO: ADD YOUR CODE HERE
-    utils.NotImplemented()
+    dict = {}
+    for item in values:
+        if item in dict:
+            dict[item] += 1
+        else:
+            dict[item] = 1
+    return dict

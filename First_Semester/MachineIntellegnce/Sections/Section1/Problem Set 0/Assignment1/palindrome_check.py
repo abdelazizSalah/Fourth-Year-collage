@@ -15,11 +15,3 @@ def palindrome_check(string: str) -> bool:
         if string[i] != string[-1-i]:
             return False
     return True
-
-
-print(palindrome_check('BaaB'))
-print(palindrome_check('Apple'))
-print(palindrome_check('Radar'))
-print(palindrome_check('radar'))
-print(palindrome_check('Abdelaziz'))
-print(palindrome_check('ZozoZ'))
