@@ -38,8 +38,8 @@ def byte_pair_encoding(vocab, num_merges):
 
 
 # Sample vocabulary
-vocab = {"l o w </w>": 5, "l o w e r </w>": 2,
-         "n e w e s t </w>": 6, "w i d e s t </w>": 3}
+vocab = {"l o w </w>": 5, "l o w e s t </w>": 2,
+         "n e w e r </w>": 6, "w i d e r </w>": 3, "n e w </w>": 2, }
 
 # Number of merge operations to perform
 num_merges = 5
