@@ -41,3 +41,15 @@
 1. e7na hanshtghl server side, wla in the application side (on mobile). 
 2. C++ inside code
 3. Iphone / Android ? 
+
+## Things to be done: 
+1. Lw hn3ml scan lel mkan, fa hyb2a 3ndna 2 modes of opertions. 
+2. lazm nghz eh hadaf el project da, w ezay hna7sn 3la el mwgod, w lw homa kolohom 
+3. survey 
+   1. effective wla laa
+   2. eh l fr2 benk w ben el so2
+   3. hat3ml el klam da ezay.  
+   4. ema enk btl2eh 3la el net w enk ts2l nas aslun. 
+4. Sequence of the presentation: 
+   1. look for previous years presentations.
+5. 7adar as2ela ktera w gaweb 3lehom.  
