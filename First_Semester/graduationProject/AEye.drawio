@@ -1,0 +1,107 @@
+<mxfile host="app.diagrams.net" modified="2023-11-04T20:24:55.735Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0" etag="JyYmzCfLtXx7H99nwWGL" version="21.6.8" type="device">
+  <diagram name="Page-1" id="D0vM7uZflSQLogu-mX1v">
+    <mxGraphModel dx="1195" dy="756" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.505;exitY=1.048;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.455;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="K57D0cMSSS-EYDu_oCRT-11" target="K57D0cMSSS-EYDu_oCRT-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="117.83999999999992" y="303.6" as="sourcePoint" />
+            <mxPoint x="110.32999999999993" y="344.7199999999999" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-3" value="With " style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="K57D0cMSSS-EYDu_oCRT-2">
+          <mxGeometry x="0.2324" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.002;entryY=0.66;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="K57D0cMSSS-EYDu_oCRT-8" target="K57D0cMSSS-EYDu_oCRT-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-8" value="Communication&amp;nbsp; module between the Glasses and the Mobile App" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-11" value="Glass" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="70" y="360" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-13" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="315" y="230" width="480" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-15" value="Our Main Application" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="315" y="220" width="135" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-16" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="250" width="340" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-17" value="Navigation" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="435" y="243" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-23" value="Output Sound" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="620" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="K57D0cMSSS-EYDu_oCRT-24" target="K57D0cMSSS-EYDu_oCRT-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-24" value="Input Sound" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="640" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-26" value="&amp;nbsp;Preprocessing Image Processing System" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="322.5" y="240" width="107.5" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="K57D0cMSSS-EYDu_oCRT-27" target="K57D0cMSSS-EYDu_oCRT-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-37" value="Without glasses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="K57D0cMSSS-EYDu_oCRT-33">
+          <mxGeometry x="-0.5431" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.706;entryY=0.077;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="K57D0cMSSS-EYDu_oCRT-27" target="K57D0cMSSS-EYDu_oCRT-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-36" value="With" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="K57D0cMSSS-EYDu_oCRT-34">
+          <mxGeometry x="0.1325" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-27" value="Camera" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="80" y="210" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-41" value="OCR Module" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="500" width="140" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-42" value="Face Recognition System" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="500" width="160" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-43" value="Emotion Recognition System" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="500" width="140" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-44" value="Input Speech recognition System" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="620" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="K57D0cMSSS-EYDu_oCRT-45" target="K57D0cMSSS-EYDu_oCRT-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-45" value="Output Speech System" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="620" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-50" value="Object detection&lt;br&gt;(Perception)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="260" width="80" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-51" value="Map Builder ( SLAM )" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="260" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-52" value="Router&lt;br&gt;(Path Planner)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="330" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-53" value="Locations Database&lt;br&gt;and routes Files" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="330" width="80" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="K57D0cMSSS-EYDu_oCRT-54" value="Path Memorizer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="420" width="140" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
