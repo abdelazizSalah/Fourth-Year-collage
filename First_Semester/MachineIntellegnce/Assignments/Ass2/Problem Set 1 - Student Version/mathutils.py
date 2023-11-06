@@ -71,8 +71,8 @@ class Direction(IntEnum):
 
 # A list where each entry contains the vector pointing in the corresponding direction
 Direction._Vectors = [
-    Point( 1,  0),
-    Point( 0, -1),
-    Point(-1,  0),
-    Point( 0,  1)
+    Point( 1,  0), # R
+    Point( 0, -1), # U
+    Point(-1,  0), # L
+    Point( 0,  1) # D
 ]

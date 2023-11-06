@@ -2,14 +2,14 @@ from typing import Any, Dict, Set, Tuple, List
 from problem import Problem
 from mathutils import Direction, Point
 from helpers.utils import NotImplemented
-
+DEBUG = False
 #! The parking state is the dictionary which tells us where each car stands after each action. 
 #? initially it should contains the initial position of each car.
 #? then after each action we should modify it.
 #? it is a dictionary of int and point
     #? int: the index of the car
     #? point: the position of the car  
-ParkingState= Dict[ int, Point] 
+ParkingState= Dict[int, Point] 
 
 # An action of the parking problem is a tuple containing an index 'i' and a direction 'd' where car 'i' should move in the direction 'd'.
 ParkingAction = Tuple[int, Direction]
@@ -27,16 +27,35 @@ class ParkingProblem(Problem[ParkingState, ParkingAction]):
   
     width: int              # The width of the parking lot.
     height: int             # The height of the parking lot.
-    def isValidLocation(self, p:Point):
-        # if p in self.passages
-        return True
+
+    def isValidLocation(self, p:Point, state:ParkingState, car_number:int) -> bool:
+        '''
+            This is a utility function responsible for checking wethere the given point is an empty cell "valid position" or not
+            Logic: 
+                1. the given p must be in the passages
+                2. no other cars should exist in that passage.
+            Input:
+                p: the debatable point
+                state: the current state
+                car_number: the index of the car that we should apply on it the transition action. 
+            Output: bool
+                True: if valid.
+                False: otherwise.
+        '''
+        if p in self.passages:
+            for car_idx, car_loc in state.items():
+                if car_idx != car_number and car_loc == p:
+                    return False
+        else:
+            return False
+        return True 
 
     # This function should return the initial state
-    '''
-        Our initial state is the locations of the cars, so we need to return a dictionary of the cars and their locations.
-        So all what we are going to do is to initialize the "ParkingState" map with the initial locations of the cars.
-    '''
     def get_initial_state(self) -> ParkingState:
+        '''
+            Our initial state is the locations of the cars, so we need to return a dictionary of the cars and their locations.
+            So all what we are going to do is to initialize the "ParkingState" map with the initial locations of the cars.
+        '''
         ParkingState:Dict[int, Point] = {}
         for i in range(len(self.cars)):
             ParkingState[i] = self.cars[i]
@@ -64,24 +83,81 @@ class ParkingProblem(Problem[ParkingState, ParkingAction]):
             then we should move it. 
         '''
         #! in this we should store all possible actions. 
-        parkingActions = []
-        #?    L,R,U,D
-        dx = [0,0,-1,1]
-        dy = [-1,1,0,0]
+        ParkingAction = []
+        dir = {
+        # Point( 1,  0), # R
+        # Point( 0, -1), # U
+        # Point(-1,  0), # L
+        # Point( 0,  1)  # D
+            0:Point( 1,  0),
+            1:Point( 0, -1),
+            2:Point(-1,  0),
+            3:Point( 0,  1),
+        }
         for car_idx, car_loc in state.items():
             for i in range(4):
-                parkingActions.append(Point(car_loc.x+dx[i], car_loc.y+dy[i]))
-        return parkingActions
+                p = Point(car_loc.x+dir[i].x, car_loc.y+dir[i].y)
+                # p = Point(car_loc.x+dx[i], car_loc.y+dy[i])
+                if(self.isValidLocation(p, state, car_idx)):
+                    ParkingAction.append((car_idx, Direction(i)))
+        return ParkingAction
     
     # This function returns a new state which is the result of applying the given action to the given state
     def get_successor(self, state: ParkingState, action: ParkingAction) -> ParkingState:
-        #TODO: ADD YOUR CODE HERE
-        NotImplemented()
+        '''
+            LOGIC: 
+                We should update one car only here with the sent parking action. 
+            INPUT: 
+                state: The current state
+                action: the action to be executed
+            OUTPUT: 
+                new ParkingState
+        '''
+        #! this to make a deep copy and do not affect the current state. 
+        newState = {k:v for k,v in state.items()}
+        dir = {
+            Direction.RIGHT: Point( 1,  0),
+            Direction.UP:    Point( 0, -1),
+            Direction.LEFT:  Point(-1,  0),
+            Direction.DOWN:  Point( 0,  1),
+        }
+        prevPoint = state[action[0]]
+        newPoint = Point(prevPoint.x + dir[action[1]].x, prevPoint.y+ dir[action[1]].y)
+        newState[action[0]] = newPoint
+        return newState
     
     # This function returns the cost of applying the given action to the given state
     def get_cost(self, state: ParkingState, action: ParkingAction) -> float:
-        #TODO: ADD YOUR CODE HERE
-        NotImplemented()
+        '''
+            LOGIC: 
+                we should define a map for the costs
+                if 0 -> 26
+                else if 1 -> 25 and so on.
+                the generic equation is moveCost = 26 - (c - 'A') where c is the car letter.
+                also we should check, if the new location is one of other cars locations, we should cost it 100
+        '''
+        carIdx, newDir = action[0],action[1]
+        cost = 26 - carIdx
+        dir = {
+            Direction.RIGHT: Point( 1,  0),
+            Direction.UP:    Point( 0, -1),
+            Direction.LEFT:  Point(-1,  0),
+            Direction.DOWN:  Point( 0,  1),
+        }
+        prevPoint = state[carIdx]
+        newPoint = Point(prevPoint.x + dir[newDir].x, prevPoint.y+ dir[newDir].y)
+
+
+        #! standing on other employee slot
+        for carLoc, idx in self.slots.items():
+            if idx != carIdx and newPoint == carLoc:
+                cost += 100
+                if DEBUG:
+                    print(cost)
+                return cost
+        if DEBUG:
+            print(cost)
+        return cost
     
      # Read a parking problem from text containing a grid of tiles
     @staticmethod
@@ -106,8 +182,13 @@ class ParkingProblem(Problem[ParkingState, ParkingAction]):
         problem.slots = {position:index for index, position in slots.items()}
         problem.width = width
         problem.height = height
-        ParkingState = problem.get_initial_state()
-        print(problem.is_goal(ParkingState))
+        if DEBUG:
+            ParkingState = problem.get_initial_state()
+            isGoal = problem.is_goal(ParkingState)
+            actions = problem.get_actions(ParkingState)
+            for action in actions:
+                problem.get_successor(ParkingState, action)
+                problem.get_cost(ParkingState, action)
         
         return problem
 
@@ -117,6 +198,3 @@ class ParkingProblem(Problem[ParkingState, ParkingAction]):
         with open(path, 'r') as f:
             return ParkingProblem.from_text(f.read())
     
-# testing the logic
-ParkingProblem.from_file("First_Semester\MachineIntellegnce\Assignments\Ass2\Problem Set 1 - Student Version\parks\park1.txt")
-

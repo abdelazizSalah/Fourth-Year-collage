@@ -14,7 +14,6 @@
 7. indoors only or outdoors with restrictions?
    1. outdoor: real time
    2. path-planning
-   3.  
 
 ## Things to be done:
 1. l7d um el gom3a elly gy
