@@ -52,4 +52,5 @@
    4. ema enk btl2eh 3la el net w enk ts2l nas aslun. 
 4. Sequence of the presentation: 
    1. look for previous years presentations.
-5. 7adar as2ela ktera w gaweb 3lehom.  
+5. 7adar as2ela ktera w gaweb 3lehom.
+6. 
