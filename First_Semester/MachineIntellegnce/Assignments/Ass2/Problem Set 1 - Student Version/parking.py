@@ -25,8 +25,16 @@ class ParkingProblem(Problem[ParkingState, ParkingAction]):
     
     # This function should return True if the given state is a goal. Otherwise, it should return False.
     def is_goal(self, state: ParkingState) -> bool:
-        #TODO: ADD YOUR CODE HERE
-        NotImplemented()
+        '''
+            Our goal is to park all the cars in their slots.
+            so to do so, we need to iterate over all cars, and all slots, then check that each car is standing 
+            in the slot that is assigned to it.
+            for i = 0, c = 'A', i < len(cats), i++, c++:
+                if slots[c] != cars[i]:
+                    return False
+            return True
+        '''
+        pass
     
     # This function returns a list of all the possible actions that can be applied to the given state
     def get_actions(self, state: ParkingState) -> List[ParkingAction]:
