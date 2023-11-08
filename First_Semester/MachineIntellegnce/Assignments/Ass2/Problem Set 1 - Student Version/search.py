@@ -120,7 +120,11 @@ def DepthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     return None # no solution is found. 
     
 
-    
+  
+'''
+    Notes:
+        e3ml class esmo node w 7ot feh el time stamp wl weight w keda 34an mttl5btsh.
+'''
 
 def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     path_cost = 0
@@ -130,39 +134,30 @@ def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
         return [] # no actions are applied, we are already in the goal state.
     frontier = heapdict() # cost - timeStamp
     frontier[initial_state] = (path_cost, timeStamp)
+    timeStamp += 1
     explored:map(S, bool) = {} # represents the previously visited states.
-    inQueue:map(S, bool) = {
-        state: True
-    } # represents the states that are going to be visited in the queue.
     pathTracker:map(S, (S, A)) = {} # this for each state, we store who is its parent, and what action is done to achieve this state.
     while len(frontier):
-        timeStamp += 1
         minimumState = frontier.popitem()
         state, currentStateCost = minimumState[0], minimumState[1][0] # retrieving the state with minimum cost and first inserted
-        # print(state, currentStateCost, minimumState[1][1])
         if problem.is_goal(state):
             return findPath(pathTracker, initial_state, state, action)[:-1]
         explored[state] = True # mark as visited
-        inQueue[state] = False # mark is out from the queue
         actions = problem.get_actions(state)
         for action in actions:
             nextState = problem.get_successor(state, action)
-            if nextState not in explored and nextState not in frontier :
-                path_cost = problem.get_cost(state, action) # the cost to reach the current state + the cost to reach the new state.
+            if nextState not in explored and nextState not in frontier:
+                path_cost = currentStateCost+ problem.get_cost(state, action) # the cost to reach the current state + the cost to reach the new state.
                 frontier[nextState] = (path_cost, timeStamp)
                 timeStamp += 1
-                inQueue[nextState] = True
                 pathTracker[nextState] = (state, action)
             elif nextState in frontier: 
-                path_cost = problem.get_cost(state, action)
-                # print(nextState)
-                print(frontier[nextState][0])
-                print(path_cost)
+                path_cost =  currentStateCost+ problem.get_cost(state, action)
 
                 if(frontier[nextState][0] > path_cost): # if we found the same state but with lower path cost
-                    print('updating weight')
-                    frontier[nextState] = (path_cost,timeStamp) # assume it will stay with its previous time stamp, just update the cost.
-                timeStamp += 1
+                    frontier[nextState] = (path_cost,timeStamp) # assume that we will
+                    pathTracker[nextState] = (state, action) # update the pathTracker
+                    timeStamp += 1
                     
     return None # no possible path is found
 
@@ -180,7 +175,3 @@ def BestFirstSearch(problem: Problem[S, A], initial_state: S, heuristic: Heurist
 
 
     
-frontier = heapdict() # cost - timeStamp
-frontier[4] = (3,5)
-frontier[2] = (1,3)
-print(frontier.popitem()[0],frontier.popitem()[1][0])
