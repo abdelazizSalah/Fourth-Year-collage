@@ -82,34 +82,35 @@ def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     return None # no possible path is found
 
 
-def  DFS(problem:Problem[S,A], state:S,explored, wayToGoal:deque):
-    '''
-        utility function used to apply the dfs algorithm
-    '''
-    # base cases
-    if state in explored :
-        return False
-    if problem.is_goal(state):
-        return True
-    explored[state] = True
-    actions = problem.get_actions(state)
-    for action in actions:
-        nextState = problem.get_successor(state, action)
-        goalFound = DFS(problem, nextState, explored, wayToGoal)
-        if(goalFound):
-            wayToGoal.appendleft(action) # to avoid reversing.
-            return True
-        
-    return False # no goal is found.
-
-
-
 
 def DepthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     '''
         we need to apply the dfs searching algorithm to make the model reach the goal state.
         all we need to do is to use the LIFO logic.
+        
+        #TODO: check the algorithms steps in the attached photos in the *DFS Analysis* folder.
     '''
+    
+    def  DFS(problem:Problem[S,A], state:S,explored, wayToGoal:deque):
+        '''
+            utility function used to apply the dfs algorithm
+        '''
+        # base cases
+        if state in explored :
+            return False
+        if problem.is_goal(state):
+            return True
+        explored[state] = True
+        actions = problem.get_actions(state)
+        for action in actions:
+            nextState = problem.get_successor(state, action)
+            goalFound = DFS(problem, nextState, explored, wayToGoal)
+            if(goalFound):
+                wayToGoal.appendleft(action) # to avoid reversing.
+                return True
+            
+        return False # no goal is found.
+
     if problem.is_goal(initial_state):
         return []
     explored:map(S, bool) = {} # represents the previously visited states.
@@ -125,21 +126,30 @@ def DepthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     Notes:
         e3ml class esmo node w 7ot feh el time stamp wl weight w keda 34an mttl5btsh.
 '''
-
 def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
+    '''
+        all we need to do is to use the same logic of BFS but with small modifications
+        1. instead on normal queue, we need to use a priority queue
+        2. priority based on 2 main factors
+            1. path cost.
+            2. timeStamp -> time of insertion, to allow in case of tie, to extract the first inserted state.
+        3. when we found a state which was previously inserted before, but with better path cost, we need to update its cost -> that is why I used 
+        heapdict to allow me to update the values of the elements inside the priority queue.
+        #TODO: check the algorithms steps in the attached photos in the *UCS Analysis* folder.
+    '''
     path_cost = 0
     timeStamp= 0 # this to make the first inserted first extracted.
     state = problem.get_initial_state()
     if problem.is_goal(state):
         return [] # no actions are applied, we are already in the goal state.
-    frontier = heapdict() # cost - timeStamp
+    frontier = heapdict() # cost , timeStamp
     frontier[initial_state] = (path_cost, timeStamp)
-    timeStamp += 1
+    timeStamp += 1 #increment the time stamp after each insertion.
     explored:map(S, bool) = {} # represents the previously visited states.
-    pathTracker:map(S, (S, A)) = {} # this for each state, we store who is its parent, and what action is done to achieve this state.
+    pathTracker:map(S, (S, A)) = {} # this for each state, we store who its parent is, and what action is done to achieve this state.
     while len(frontier):
-        minimumState = frontier.popitem()
-        state, currentStateCost = minimumState[0], minimumState[1][0] # retrieving the state with minimum cost and first inserted
+        minimumState = frontier.popitem() # retrieve the state with minimum path cost, then minimum timestamp. 
+        state, parentStateCost = minimumState[0], minimumState[1][0] 
         if problem.is_goal(state):
             return findPath(pathTracker, initial_state, state, action)[:-1]
         explored[state] = True # mark as visited
@@ -147,17 +157,17 @@ def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
         for action in actions:
             nextState = problem.get_successor(state, action)
             if nextState not in explored and nextState not in frontier:
-                path_cost = currentStateCost+ problem.get_cost(state, action) # the cost to reach the current state + the cost to reach the new state.
-                frontier[nextState] = (path_cost, timeStamp)
+                childStateCost = parentStateCost+ problem.get_cost(state, action) # the cost to reach the current state + the cost to reach the new state.
+                frontier[nextState] = (childStateCost, timeStamp)
                 timeStamp += 1
                 pathTracker[nextState] = (state, action)
             elif nextState in frontier: 
-                path_cost =  currentStateCost+ problem.get_cost(state, action)
-
-                if(frontier[nextState][0] > path_cost): # if we found the same state but with lower path cost
-                    frontier[nextState] = (path_cost,timeStamp) # assume that we will
-                    pathTracker[nextState] = (state, action) # update the pathTracker
+                childStateCost =  parentStateCost + problem.get_cost(state, action)
+                previousCost = frontier[nextState][0] 
+                if(previousCost > childStateCost): # if we found the same state but with lower path cost
+                    frontier[nextState] = (childStateCost,timeStamp) # assume that we will
                     timeStamp += 1
+                    pathTracker[nextState] = (state, action) # update the pathTracker
                     
     return None # no possible path is found
 
