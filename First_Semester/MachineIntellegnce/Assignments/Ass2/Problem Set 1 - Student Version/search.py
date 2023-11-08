@@ -13,7 +13,16 @@ import heapq
 # All the search functions should return one of two possible type:
 # 1. A list of actions which represent the path from the initial state to the final state
 # 2. None if there is no solution
-
+def findPath(pathTracker, initial_state, nextState, action):
+    '''
+        utility function used to get the path of the solution from the goal node till the initial state node.
+    '''
+    path = []
+    path.append(action)
+    while initial_state != nextState:
+        path.append(pathTracker[nextState][1])
+        nextState = pathTracker[nextState][0]
+    return path[::-1]
 
 def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     '''
@@ -43,8 +52,35 @@ def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
                 #! inside the queue.
 
                 #? Another Note: we need to keep tracking of the path we used to reach that goal!
+                #TODO: check the algorithms steps in the attached photos in the *BFS Analysis* folder.
     '''
-    pass
+    state = initial_state
+    if problem.is_goal(state):
+        return [] # no actions are applied, we are already in the goal state.
+    frontier:deque = deque()
+    frontier.append(state)
+    explored:map(S, bool) = {} # represents the previously visited states.
+    inQueue:map(S, bool) = {
+        state: True
+    } # represents the states that are going to be visited in the queue.
+    pathTracker:map(S, (S, A)) = {} # this for each state, we store who is its parent, and what action is done to achieve this state.
+    while len(frontier):
+        state = frontier.popleft() # this is how deque work as a queue not vector, we extract elements from the beginning not from the end.
+        explored[state] = True # mark as visited
+        inQueue[state] = False # mark is out from the queue
+        actions = problem.get_actions(state)
+        for action in actions:
+            nextState = problem.get_successor(state, action)
+            if nextState not in explored and nextState not in inQueue:
+                if problem.is_goal(nextState):
+                    return findPath(pathTracker, initial_state, state, action)
+                frontier.append(nextState)
+                inQueue[nextState] = True
+                pathTracker[nextState] = (state, action)
+    return None # no possible path is found
+
+
+
 
 
 
