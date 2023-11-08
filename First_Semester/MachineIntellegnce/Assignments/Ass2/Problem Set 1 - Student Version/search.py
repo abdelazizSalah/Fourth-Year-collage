@@ -13,26 +13,6 @@ import heapq
 # All the search functions should return one of two possible type:
 # 1. A list of actions which represent the path from the initial state to the final state
 # 2. None if there is no solution
-def getSolution(initialState:S,currentState:S,currentAction:A ,pathTracker:dict,path:list):
-    '''
-        this is a utility function used to get the full path
-    '''
-    pathTracker[child] = (currentAction,currentState)
-    while child != initialState:
-        path.append(pathTracker[child][0])
-        child = pathTracker[child][1]
-    # reverse list
-    path = path[::-1]
-    return path
-    # if initialState == currentState:
-    #     return path
-    # path.append(currentAction)
-    # getSolution(initialState, pathTracker[currentState][1],pathTracker[currentState][0], pathTracker, path)
-
-    
-
-    
-
 
 
 def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
@@ -64,42 +44,18 @@ def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
 
                 #? Another Note: we need to keep tracking of the path we used to reach that goal!
     '''
-    initial_state = problem.get_initial_state()
-    frontier = deque()
-    frontierDict = {}
-    explored = {}
-    stateActions = {}
-    frontier.append(initial_state)
-    path = None
-    while len(frontier) != 0:
-        state = frontier.popleft()
-        actions = problem.get_actions(state)
-        explored[state] = True
-        for action in actions:
-            child = problem.get_successor(state,action)
-            if problem.is_goal(child):
-                path = []
-                stateActions[child] = (action,state)
-                while child != initial_state:
-                    path.append(stateActions[child][0])
-                    child = stateActions[child][1]
-                # reverse list
-                path = path[::-1]
-                return path
-            if explored.get(child,None) == None and frontierDict.get(child,None) == None :
-                frontier.append(child)
-                # add child to frontierDict
-                frontierDict[child] = True
-                stateActions[child] = (action,state)
-                
-
-    return path
+    pass
 
 
 
 def DepthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
-    #TODO: ADD YOUR CODE HERE
-    NotImplemented()
+    '''
+        we need to apply the dfs searching algorithm to make the model reach the goal state.
+        all we need to do is to use the LIFO logic, and keep track of the visited nodes.
+    '''
+    pass
+    
+
     
 
 def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
