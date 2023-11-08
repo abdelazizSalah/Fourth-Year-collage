@@ -1,0 +1,33 @@
+
+def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
+    #TODO: ADD YOUR CODE HERE
+    initial_state = problem.get_initial_state()
+    frontier = deque()
+    frontierDict = {}
+    explored = {}
+    stateActions = {}
+    frontier.append(initial_state)
+    path = None
+    while len(frontier) != 0:
+        state = frontier.popleft()
+        actions = problem.get_actions(state)
+        explored[state] = True
+        for action in actions:
+            child = problem.get_successor(state,action)
+            if problem.is_goal(child):
+                path = []
+                stateActions[child] = (action,state)
+                while child != initial_state:
+                    path.append(stateActions[child][0])
+                    child = stateActions[child][1]
+                # reverse list
+                path = path[::-1]
+                return path
+            if explored.get(child,None) == None and frontierDict.get(child,None) == None :
+                frontier.append(child)
+                # add child to frontierDict
+                frontierDict[child] = True
+                stateActions[child] = (action,state)
+    # reverse the path if it is not None
+    return path
+    
