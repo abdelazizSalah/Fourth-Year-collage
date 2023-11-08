@@ -80,6 +80,25 @@ def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     return None # no possible path is found
 
 
+def  DFS(problem:Problem[S,A], state:S,explored, wayToGoal:deque):
+    '''
+        utility function used to apply the dfs algorithm
+    '''
+    # base cases
+    if state in explored :
+        return False
+    if problem.is_goal(state):
+        return True
+    explored[state] = True
+    actions = problem.get_actions(state)
+    for action in actions:
+        nextState = problem.get_successor(state, action)
+        goalFound = DFS(problem, nextState, explored, wayToGoal)
+        if(goalFound):
+            wayToGoal.appendleft(action) # to avoid reversing.
+            return True
+        
+    return False # no goal is found.
 
 
 
@@ -87,16 +106,55 @@ def BreadthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
 def DepthFirstSearch(problem: Problem[S, A], initial_state: S) -> Solution:
     '''
         we need to apply the dfs searching algorithm to make the model reach the goal state.
-        all we need to do is to use the LIFO logic, and keep track of the visited nodes.
+        all we need to do is to use the LIFO logic.
     '''
-    pass
+    if problem.is_goal(initial_state):
+        return []
+    explored:map(S, bool) = {} # represents the previously visited states.
+    wayToGoal:deque = deque()
+    goalFound:bool = DFS(problem, initial_state,explored, wayToGoal)
+    if goalFound:
+        return wayToGoal
+    return None # no solution is found. 
     
 
     
 
 def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
-    #TODO: ADD YOUR CODE HERE
-    NotImplemented()
+    path_cost = 0
+    state = initial_state
+    if problem.is_goal(state):
+        return [] # no actions are applied, we are already in the goal state.
+    pq = []
+    heapq.heappush(pq,(0,state))
+    explored:map(S, bool) = {} # represents the previously visited states.
+    inQueue:map(S, bool) = {
+        state: True
+    } # represents the states that are going to be visited in the queue.
+    pathTracker:map(S, (S, A)) = {} # this for each state, we store who is its parent, and what action is done to achieve this state.
+    while len(pq):
+        state = heapq.heappop(pq) # this is how deque work as a queue not vector, we extract elements from the beginning not from the end.
+        if problem.is_goal(state):
+            return findPath(pathTracker, initial_state, state, action)
+        explored[state] = True # mark as visited
+        inQueue[state] = False # mark is out from the queue
+        actions = problem.get_actions(state)
+        for action in actions:
+            nextState = problem.get_successor(state, action)
+            if nextState not in explored :
+                path_cost += problem.get_cost(nextState, action)
+                heapq.heappush(pq, (path_cost, nextState))
+                inQueue[nextState] = True
+                pathTracker[nextState] = (state, action)
+            # elif nextState  in inQueue:
+            #     # if it has a higher cost, we should replace it with the lower cost.
+            #     path_cost += problem.get_cost(nextState, action)
+            #     heapq.heappush(pq, (path_cost, nextState))
+            #     inQueue[nextState] = True
+            #     pathTracker[nextState] = (state, action)
+            
+    return None # no possible path is found
+
 
 def AStarSearch(problem: Problem[S, A], initial_state: S, heuristic: HeuristicFunction) -> Solution:
     #TODO: ADD YOUR CODE HERE
