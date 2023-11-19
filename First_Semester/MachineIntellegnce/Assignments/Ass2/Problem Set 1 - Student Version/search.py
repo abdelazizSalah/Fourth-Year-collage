@@ -173,15 +173,71 @@ def UniformCostSearch(problem: Problem[S, A], initial_state: S) -> Solution:
 
 
 def AStarSearch(problem: Problem[S, A], initial_state: S, heuristic: HeuristicFunction) -> Solution:
-    #TODO: ADD YOUR CODE HERE
-    NotImplemented()
+    # all we need to do is same as the UCS, but with small modifications.
+    # which is t make the priority on the heuristic value.
+    path_cost = 0
+    timeStamp= 0 # this to make the first inserted first extracted.
+    state = problem.get_initial_state()
+    if problem.is_goal(state):
+        return [] # no actions are applied, we are already in the goal state.
+    frontier = heapdict() # cost , timeStamp
+    frontier[initial_state] = (heuristic(problem, state) + path_cost, timeStamp, heuristic(problem, state))
+    timeStamp += 1 #increment the time stamp after each insertion.
+    explored:map(S, bool) = {} # represents the previously visited states.
+    pathTracker:map(S, (S, A)) = {} # this for each state, we store who its parent is, and what action is done to achieve this state.
+    while len(frontier):
+        minimumState = frontier.popitem() # retrieve the state with minimum path cost, then minimum timestamp. 
+        
+        state, parentStateCost, parentHeuristic = minimumState[0], minimumState[1][0], minimumState[1][2]
+        if problem.is_goal(state):
+            return findPath(pathTracker, initial_state, state, action)[:-1]
+        explored[state] = True # mark as visited
+        actions = problem.get_actions(state)
+        for action in actions:
+            nextState = problem.get_successor(state, action) # getting the next state
+            if nextState not in explored and nextState not in frontier:
+                hur = heuristic(problem, nextState) # evaluate the heuristic value for the next state
+                childStateCost =hur + problem.get_cost(nextState, action) + parentStateCost - parentHeuristic   # the cost is summation of the current heuristic + current cost to the goal + paretent cost - the parent heuristic which I do not care about
+                frontier[nextState] = (childStateCost, timeStamp,hur)
+                timeStamp += 1
+                pathTracker[nextState] = (state, action)
+            elif nextState in frontier: 
+                hur = heuristic(problem, nextState) # evaluate the heuristic value for the next state
+                childStateCost = hur + problem.get_cost(nextState, action) + parentStateCost - parentHeuristic # the cost is summation of the current heuristic + current cost to the goal + paretent cost - the parent heuristic which I do not care about
+                previousCost = frontier[nextState][0] 
+                if(previousCost > childStateCost): # if we found the same state but with lower path cost
+                    frontier[nextState] = (childStateCost,timeStamp, hur) # assume that we will
+                    timeStamp += 1
+                    pathTracker[nextState] = (state, action) # update the pathTracker
+                    
+    return None # no possible path is found
 
 def BestFirstSearch(problem: Problem[S, A], initial_state: S, heuristic: HeuristicFunction) -> Solution:
-    #TODO: ADD YOUR CODE HERE
-    NotImplemented()
-
-
-
-
-
-    
+    # all we need to do is same as the UCS, but with small modifications.
+    # which is t make the priority on the heuristic value.
+    timeStamp= 0 # this to make the first inserted first extracted.
+    state = problem.get_initial_state()
+    if problem.is_goal(state):
+        return [] # no actions are applied, we are already in the goal state.
+    frontier = heapdict() # cost , timeStamp
+    frontier[initial_state] = (heuristic(problem, state), timeStamp)
+    timeStamp += 1 #increment the time stamp after each insertion.
+    explored:map(S, bool) = {} # represents the previously visited states.
+    pathTracker:map(S, (S, A)) = {} # this for each state, we store who its parent is, and what action is done to achieve this state.
+    while len(frontier):
+        minimumState = frontier.popitem() # retrieve the state with minimum path cost, then minimum timestamp. 
+        state= minimumState[0]
+        if problem.is_goal(state):
+            return findPath(pathTracker, initial_state, state, action)[:-1]
+        explored[state] = True # mark as visited
+        actions = problem.get_actions(state)
+        for action in actions:
+            nextState = problem.get_successor(state, action)
+            if nextState not in explored and nextState not in frontier:
+                childStateCost = heuristic(problem, nextState) # the cost to reach the current state + the cost to reach the new state.
+                frontier[nextState] = (childStateCost, timeStamp)
+                timeStamp += 1
+                pathTracker[nextState] = (state, action)
+           
+                    
+    return None # no possible path is found
