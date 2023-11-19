@@ -31,7 +31,7 @@ class SokobanLayout:
     __slots__ = ("width", "height", "walkable", "goals")
     width: int
     height: int
-    walkable: FrozenSet[Point]
+    walkable: FrozenSet[Point] # all possible point in which I can move in. 
     goals: FrozenSet[Point]
 
 # For the sokoban state, we use dataclass with frozen=True to automatically implement:
@@ -42,9 +42,9 @@ class SokobanLayout:
 @dataclass(frozen=True)
 class SokobanState:
     __slots__ = ("layout", "player", "crates")
-    layout: SokobanLayout
+    layout: SokobanLayout # el shakl bta3 el map w amakn el goals.
     player: Point
-    crates: FrozenSet[Point]
+    crates: FrozenSet[Point] # amaken el crates. 
 
     # This operator will convert the state to a string containing the grid representation of the level at the current state
     def __str__(self) -> str:
