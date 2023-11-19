@@ -18,5 +18,36 @@ def strong_heuristic(problem: SokobanProblem, state: SokobanState) -> float:
     #NOTE: you can use problem.cache() to get a dictionary in which you can store information that will persist between calls of this function
     # This could be useful if you want to store the results heavy computations that can be cached and used across multiple calls of this function
     # You can use the state.layout attribute to access the layout of the problem
-    problem.cache()
+    '''
+        The main logic is that we will use manhatten distance to get the distance between each crate and the nearest goal
+        and the heuristic will be the sum of all these distances.
+
+        but there will be some corner cases, which when the carets are in a position that they can't be moved to any goal
+        we call these positions as a deadlock, so at this state, we should set the heuristic of this state as inf. 
+
+        types of deadlocks are 4:
+        1. square deadlock :
+                  $#
+                  $# and any shape like this. 
+        2. L deadlock:
+                    ##
+                    #$ and any shape like this.
+        3. corner deadlock:
+                    ##
+                    $#
+                     #
+                     #
+                     #
+                     #
+        4. at a side deadlock:
+        ##############
+                     # here we can not move this caret to left.
+                 g  $#
+                     #
+                     #
+        ##############
+        any case rather than those, will be solvable, so I just need some time to implement this.
+        but since tommorow is networks exam, and now it is 4 pm, I won't be able to implement this.
+        If I have just have more time I will get this correct isa, and by the way I will implement it even If I did not get the marks of this.
+    '''
     
