@@ -1,0 +1,6 @@
+1. HTAP
+   1. Hybrid Transactional and Analytical Processing
+   2. Hybrid: online transaction processing (OLTP) and online analytical processing (OLAP)
+   3. HTAP: This acronym stands for Hybrid Transactional Analytical Processing. In the context of databases, it typically refers to systems that can handle both transactional (OLTP - Online Transaction Processing) and analytical (OLAP - Online Analytical Processing) workloads. Traditional databases often struggle to efficiently support both types of workloads simultaneously, and HTAP solutions aim to provide a more integrated and efficient approach.
+
+Hybrid Transactional Analytical Processing: This phrase emphasizes the dual nature of the processing capabilities. "Transactional" refers to tasks related to managing and processing transactions, which involve the insertion, updating, and deletion of records. On the other hand, "Analytical" pertains to tasks related to data analysis, reporting, and business intelligence. Combining these two aspects in a hybrid model aims to offer a more versatile and comprehensive solution for diverse data processing needs.
