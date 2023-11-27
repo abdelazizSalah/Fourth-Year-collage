@@ -1,0 +1,11 @@
+div{
+    background:indigo; 
+    color: white; 
+    /* on refresh, everything will go away
+    so if you need them, just copy them when you finish
+    .*/
+    border: 3px solid red;
+    padding-left: 20px
+    
+    
+}
