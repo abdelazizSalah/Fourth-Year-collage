@@ -1,0 +1,43 @@
+h1 {
+    color: orange; 
+    background-color: brown;
+    font-size: 90px;
+    text-decoration: underline;
+    text-align: center;
+    font-family: 'Arial'; /* we have to use a web-safe family, google it on w3school, 34an tst5dm font kol el nas btst5dmo mykonsh font mwgod 3ndk enta bs 3la el ghaz*/
+    /* we just google the properties we want to use. */
+}
+
+p {
+    color: slategray; 
+    text-align: right;
+    line-height: 30px;
+    columns: 2; /* we can use columns 
+    to make the text split itself in n columns */
+}
+
+h2{
+    color: red;
+    text-align: center;
+    text-shadow: 2px 2px 5px orange; /* text-shadow: horizontal vertical blur color; */
+}
+
+ul{
+    color: blue;
+    text-align: center;
+    /* border-radius: 50px;
+    border-style: solid;
+    border-color: brown; */
+    /* we can do the above three lines in only one line which is */
+    /* border: 6px solid brown; border-width: border-style: border-color: */
+    border-top: 6px dashed brown; /* border-width: border-style: border-color:*/
+    border-bottom: 6px dashed green; /* border-width: border-style: border-color:*/
+    border-left: 6px dashed blue; /* border-width: border-style: border-color:*/
+    border-right: 6px dashed yellow; /* border-width: border-style: border-color:*/
+}
+
+li{
+    color: green;
+    text-align: center;
+
+}
