@@ -1,0 +1,95 @@
+/* this will select any element with class error */
+.error{ 
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+/* but what if we want only to select the paragraphs inside the class error */
+p.error{
+    color: blue;
+    font-size: 20px;
+    font-weight: italic;
+    text-align: center;
+    margin: 20px;
+}
+
+p.class1.class2{
+    color: red;
+    font-size: 20px;
+    font-weight: italic;
+    text-align: left;
+    margin: 20px;
+
+}
+.warning{
+    color: orange;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+
+
+.success{
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+#content{
+    color: blue;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+    border: 2px solid black;
+}
+
+
+div p {
+    /* this is how we select the paragraphs which lies inside the divs only. */
+}
+
+a[href="https://www.google.com"]{ /* with the equity we specify, but we can get all hrefs, with removing the equity.*/
+    /* this is how we select the anchor tags which has href attribute */
+    /*  w momken ne3ml keda m3 ay element tany baa, el hwa msln 3auz kol el field elly 3amlhom validations bs msln, w hakaza. */
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+    border: 2px solid black;
+    
+}
+a[href*="zizo"]{ 
+    /*
+     with using *, we are applying some sort of regex
+    fa bn2olo ay href gowah kelmt google.
+    */
+    color: gray;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+    border: 2px solid black;
+    
+}
+a[href$=".net"]{ 
+    /*
+     with using $, we are applying some sort of regex
+    fa bn2olo ay href end with .net
+    */
+    color: brown;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+    border: 2px solid black;
+    
+}
