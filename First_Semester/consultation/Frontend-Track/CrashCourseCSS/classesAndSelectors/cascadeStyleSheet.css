@@ -1,0 +1,23 @@
+div{
+    color: red;
+    border: 1px solid brown;
+    margin: 5px;
+    padding: 20px;
+}
+
+div p{
+    columns: 2;
+    /* here we allowing inhertance of some prent properties. */
+    margin: inherit;
+    padding: inherit;
+    border: inherit;
+    /* but we can overwrite the parent values */
+    color: blue;
+}
+
+p {
+    color: green;
+    border: 1px solid black;
+    margin: 10px;
+    padding: 10px;
+}
