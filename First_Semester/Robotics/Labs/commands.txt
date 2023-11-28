@@ -1,0 +1,2 @@
+conda activate ros_env
+e3mlo run awl mtft7 el terminal.
