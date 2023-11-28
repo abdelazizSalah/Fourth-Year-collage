@@ -4,8 +4,11 @@ div{
     /* on refresh, everything will go away
     so if you need them, just copy them when you finish
     .*/
-    border: 3px solid red;
+    border: 3px solid blue;
     padding-left: 20px
     
     
 }
+
+body{
+    background: antiquewhite;}
