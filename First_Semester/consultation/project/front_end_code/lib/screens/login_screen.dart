@@ -68,7 +68,9 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: Text(
                   'Forgot Password?',
                   style: TextStyle(
-                      color: Colors.amber, fontSize: 14 * textScaleFactor),
+                      fontFamily: 'RubikBubbles',
+                      color: Colors.amber,
+                      fontSize: 14 * textScaleFactor),
                 ),
               ),
             ),
@@ -110,8 +112,10 @@ class _LogInScreenState extends State<LogInScreen> {
           },
           child: Text(
             'Log In',
-            style:
-                TextStyle(color: Colors.amber, fontSize: 20 * textScaleFactor),
+            style: TextStyle(
+                color: Colors.amber,
+                fontSize: 16 * textScaleFactor,
+                fontFamily: 'RubikBubbles'),
           ),
         ),
         const Text('|', style: TextStyle(color: Colors.amber, fontSize: 20)),
@@ -123,8 +127,10 @@ class _LogInScreenState extends State<LogInScreen> {
           },
           child: Text(
             'Register',
-            style:
-                TextStyle(color: Colors.amber, fontSize: 20 * textScaleFactor),
+            style: TextStyle(
+                color: Colors.amber,
+                fontSize: 16 * textScaleFactor,
+                fontFamily: 'RubikBubbles'),
           ),
         ),
       ],
