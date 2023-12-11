@@ -50,9 +50,33 @@ class CryptArithmeticProblem(Problem):
         # problem.domains:      should be dictionary that maps each variable (str) to its domain (set of values)
         #                       For the letters, the domain can only contain integers in the range [0,9].
         # problem.constaints:   should contain a list of constraint (either unary or binary constraints).
+        problem.variables = list(set(LHS0 + LHS1 + RHS))
+        problem.domains = {letter: set(range(10)) for letter in problem.variables}
+        problem.constraints = []
+        # Unary constraints for the first letter of each word
+        problem.constraints.append(UnaryConstraint(LHS0[0], lambda x: x != 0))
+        problem.constraints.append(UnaryConstraint(LHS1[0], lambda x: x != 0))
+        problem.constraints.append(UnaryConstraint(RHS[0], lambda x: x != 0))
+        # Binary constraints for all letters
+        for letter in problem.variables:
+            problem.constraints.append(BinaryConstraint(letter, LHS0, lambda x, y: x != y))
+            problem.constraints.append(BinaryConstraint(letter, LHS1, lambda x, y: x != y))
+            problem.constraints.append(BinaryConstraint(letter, RHS, lambda x, y: x != y))
+        # Binary constraints for the sum
+        for i in range(len(RHS)):
+            problem.constraints.append(BinaryConstraint(RHS[-i-1], LHS0[-i-1], lambda x, y: x == y))
+            problem.constraints.append(BinaryConstraint(RHS[-i-1], LHS1[-i-1], lambda x, y: x == y))
+            problem.constraints.append(BinaryConstraint(RHS[-i-1], RHS[-i-1], lambda x, y: x == y))
+        # Binary constraints for the carry
+        for i in range(len(RHS)-1):
+            problem.constraints.append(BinaryConstraint(RHS[-i-2], LHS0[-i-1], lambda x, y: x == y))
+            problem.constraints.append(BinaryConstraint(RHS[-i-2], LHS1[-i-1], lambda x, y: x == y))
+            problem.constraints.append(BinaryConstraint(RHS[-i-2], RHS[-i-1], lambda x, y: x == y))
+        
+        # what else ?
         
 
-        
+
         return problem
 
     # Read a cryptarithmetic puzzle from a file
