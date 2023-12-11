@@ -22,6 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {},
           icon: const Icon(Icons.more_vert),
         ),
+
         // circular avatar contains text to sign in
         GestureDetector(
           onTap: () {
@@ -37,9 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: const Text(
               'Log In',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
+              style: TextStyle(color: Colors.amber, fontSize: 20),
             ),
           ),
         ),

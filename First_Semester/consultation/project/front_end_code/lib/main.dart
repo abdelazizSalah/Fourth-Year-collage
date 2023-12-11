@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_code/data/routes.dart';
-import 'package:front_end_code/screens/home_page_screen.dart';
+import 'package:front_end_code/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'EPL Reservo'),
+      // home: const MyHomePage(title: 'EPL Reservo'),
+      home: const LogInScreen(),
       routes: routes,
     );
   }
