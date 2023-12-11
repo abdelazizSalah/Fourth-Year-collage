@@ -3,6 +3,8 @@ import re
 from CSP import Assignment, Problem, UnaryConstraint, BinaryConstraint
 
 #TODO (Optional): Import any builtin library or define any helper function you want to use
+import itertools
+
 
 # This is a class to define for cryptarithmetic puzzles as CSPs
 class CryptArithmeticProblem(Problem):
@@ -48,10 +50,9 @@ class CryptArithmeticProblem(Problem):
         # problem.domains:      should be dictionary that maps each variable (str) to its domain (set of values)
         #                       For the letters, the domain can only contain integers in the range [0,9].
         # problem.constaints:   should contain a list of constraint (either unary or binary constraints).
+        
 
-        problem.variables = []
-        problem.domains = {}
-        problem.constraints = []
+        
         return problem
 
     # Read a cryptarithmetic puzzle from a file
