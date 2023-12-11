@@ -15,10 +15,10 @@ def one_consistency(problem: Problem) -> bool:
             continue
         variable = constraint.variable
         new_domain = {value for value in problem.domains[variable] if constraint.condition(value)}
-        if not new_domain:
-            solvable = False
+        if not new_domain: # no possible solutions
+            solvable = False # it does not break, as we need to check on all constraints.
         problem.domains[variable] = new_domain
-    problem.constraints = remaining_constraints
+    problem.constraints = remaining_constraints # non unary constraints
     return solvable
 
 # This function returns the variable that should be picked based on the MRV heuristic.
