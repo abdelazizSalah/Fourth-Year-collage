@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_end_code/screens/home_page_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -8,7 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(60);
   @override
   Widget build(BuildContext context) {
-    // final mediaQuery = MediaQuery.of(context);
+    final mediaQuery = MediaQuery.of(context);
     // final theme = Theme.of(context);
     // final textScaleFactor = mediaQuery.textScaleFactor;
     return AppBar(
@@ -38,7 +39,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: const Text(
               'Log In',
-              style: TextStyle(color: Colors.amber, fontSize: 20),
+              style: TextStyle(
+                  color: Colors.amber,
+                  fontSize: 20,
+                  fontFamily: 'RubikBubbles'),
             ),
           ),
         ),
@@ -54,13 +58,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          title,
-          style:
-              const TextStyle(color: Colors.amber, fontFamily: 'RubikBubbles'),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(MyHomePage.routeName);
+          },
+          child: Text(
+            title,
+            style: const TextStyle(
+                color: Colors.amber, fontFamily: 'RubikBubbles'),
+          ),
         )
       ]),
-      centerTitle: true,
+      centerTitle: mediaQuery.size.width > 600,
     );
   }
 }

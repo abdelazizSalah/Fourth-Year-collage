@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:front_end_code/screens/login_screen.dart';
+import 'package:front_end_code/widgets/match_widget.dart';
+import 'package:front_end_code/widgets/newsWidget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-  static final routeName = '/home_page';
+  static const routeName = '/home_page';
   final String title;
 
   @override
@@ -11,86 +13,186 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  Widget homeTab() {
+    return Container(
+      color: Colors.black87,
+      child: ListView(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 150,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 100,
+                itemBuilder: (context, index) {
+                  return Container(
+                      color: const Color.fromARGB(174, 255, 193, 7),
+                      child: const MatchWidget());
+                },
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisExtent: 300,
+                crossAxisSpacing: 5,
+                childAspectRatio: 1,
+              ),
+              itemCount: 100,
+              itemBuilder: (context, index) {
+                return Container(
+                    color: Color.fromARGB(127, 223, 194, 1),
+                    child: const NewsWidet());
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Widget profileTab() {
+    return Container(
+      color: Colors.black87,
+    );
+  }
+
+  Widget matchesTab() {
+    return Container(
+      color: Colors.black87,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actionsIconTheme: const IconThemeData(color: Colors.amber),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-          ),
-          // circular avatar contains text to sign in
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(LogInScreen.routeName);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: 30),
-              // it should be rounded
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Theme.of(context).colorScheme.background,
-              ),
-              child: const Text(
-                'Log In',
-                style: TextStyle(
-                  color: Colors.amber,
+    final mediaQuery = MediaQuery.of(context);
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          // toolbarHeight: mediaQuery.size.height * 0.05,
+          // bottomOpacity: 0.5,
+          bottom: const TabBar(
+              indicatorColor: Colors.amber,
+              dividerColor: Colors.amber,
+              labelPadding: EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
+              // indicatorPadding: EdgeInsets.all(5),
+              // indicator: BoxDecoration(
+              //   borderRadius: BorderRadius.all(Radius.circular(40)),
+              //   color: Colors.white,
+              // ),
+              tabs: [
+                Column(children: [
+                  Icon(
+                    Icons.home,
+                    color: Colors.amber,
+                  ),
+                  Text(
+                    'Home',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ]),
+                Column(children: [
+                  Icon(
+                    Icons.sports_soccer,
+                    color: Colors.amber,
+                  ),
+                  Text(
+                    'Matches',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ]),
+                Column(children: [
+                  Icon(
+                    Icons.person,
+                    color: Colors.amber,
+                  ),
+                  Text(
+                    'Profile',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ]),
+              ]),
+          actionsIconTheme: const IconThemeData(color: Colors.amber),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.more_vert),
+            ),
+
+            // circular avatar contains text to sign in
+            GestureDetector(
+              onTap: () {
+                //! TODO: implement sign in
+                print('Sign in');
+              },
+              child: Container(
+                margin: const EdgeInsets.only(right: 30),
+                // it should be rounded
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Theme.of(context).colorScheme.background,
+                ),
+                child: const Text(
+                  'Log In',
+                  style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 20,
+                      fontFamily: 'RubikBubbles'),
                 ),
               ),
             ),
-          ),
-        ],
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Row(mainAxisSize: MainAxisSize.min, children: [
-          CircleAvatar(
-            child: Image.asset(
-              './assets/imgs/epl-logo.png',
-              fit: BoxFit.cover,
+          ],
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Row(mainAxisSize: MainAxisSize.min, children: [
+            CircleAvatar(
+              child: Image.asset(
+                './assets/imgs/epl-logo.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Text(
-            widget.title,
-            style: const TextStyle(
-                color: Colors.amber, fontFamily: 'RubikBubbles'),
-          )
-        ]),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Card(
-          elevation: 30,
-          shadowColor: Color.fromARGB(57, 255, 193, 7),
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-                'Welcome to EPL Reservo, Here You can enjoy the best experience with our fantastic league\n Order Your Ticket NOW!'),
-          ),
+            const SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(MyHomePage.routeName);
+              },
+              child: const Text(
+                'Reservo',
+                style:
+                    TextStyle(color: Colors.amber, fontFamily: 'RubikBubbles'),
+              ),
+            )
+          ]),
+          centerTitle: mediaQuery.size.width > 600,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'reserve your ticket now!',
-        child: GestureDetector(
-            child: const Icon(
-          Icons.add,
-        )),
+        body: TabBarView(
+          children: [
+            homeTab(),
+            matchesTab(),
+            profileTab(),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          tooltip: 'reserve your ticket now!',
+          child: GestureDetector(
+              child: const Icon(
+            Icons.add,
+          )),
+        ),
       ),
     );
   }
