@@ -50,6 +50,8 @@ class CryptArithmeticProblem(Problem):
         # problem.domains:      should be dictionary that maps each variable (str) to its domain (set of values)
         #                       For the letters, the domain can only contain integers in the range [0,9].
         # problem.constaints:   should contain a list of constraint (either unary or binary constraints).
+        # define carries 
+        
         problem.variables = list(set(LHS0 + LHS1 + RHS))
         problem.domains = {letter: set(range(10)) for letter in problem.variables}
         problem.constraints = []
