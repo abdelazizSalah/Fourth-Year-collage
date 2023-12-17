@@ -76,8 +76,8 @@ class CryptArithmeticProblem(Problem):
             problem.constraints.append(BinaryConstraint(RHS[-i-2], RHS[-i-1], lambda x, y: x == y))
         
         # what else ?
-        
-
+        #! This took to much time, I do not have more time to solve this problem ....
+        #
 
         return problem
 

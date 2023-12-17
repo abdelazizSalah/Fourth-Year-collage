@@ -21,42 +21,17 @@ def greedy(game: Game[S, A], state: S, heuristic: HeuristicFunction, max_depth: 
     value, _, action = max((heuristic(game, state, agent), -index, action) for index, (action , state) in enumerate(actions_states))
     return value, action
 
-# Apply Minimax search and return the game tree value and the best action
-# Hint: There may be more than one player, and in all the testcases, it is guaranteed that 
-# game.get_turn(state) will return 0 (which means it is the turn of the player). All the other players
-# (turn > 0) will be enemies. So for any state "s", if the game.get_turn(s) == 0, it should a max node,
-# and if it is > 0, it should be a min node. Also remember that game.is_terminal(s), returns the values
-# for all the agents. So to get the value for the player (which acts at the max nodes), you need to
-# get values[0].
-def minimax(game: Game[S, A], state: S, heuristic: HeuristicFunction, max_depth: int = -1) -> Tuple[float, A]:
-    agent = game.get_turn(state) #returns the turn of the player. 0 for player, 1 for monster, 2 for monster 2, etc. 
-
-    terminal, values = game.is_terminal(state) #returns if the state is terminal and return the values for all the agents
-    if terminal: return values[agent], None
-
-    if max_depth == 0: #if we have reached the maximum depth
-        if agent == 0: #if it is the player's turn (max node) return the heuristic value
-            return heuristic(game, state, agent), None
-        else: #if it is the monster's turn (min node) return the negative of the heuristic value
-            return -heuristic(game, state, agent), None
-
-    #get all the actions and the resulting states
-    actions_states = [(action, game.get_successor(state, action)) for action in game.get_actions(state)] 
-
-    if agent == 0: #if it is the player's turn (max node) return the action that leads to the maximum value of the heuristic function 
-        # the -index is used to break ties in the case of multiple actions with the same value
-        # max_depth-1 is used to decrease the depth by 1 for each recursive call
-        value, _, action = max((minimax(game, state, heuristic, max_depth-1)[0], -index, action) for index, (action , state) in enumerate(actions_states))
-    else: #if it is the monster's turn (min node) return the action that leads to the minimum value of the heuristic function
-        value, _, action = min((minimax(game, state, heuristic, max_depth-1)[0], -index, action) for index, (action , state) in enumerate(actions_states))
-
-    return value, action 
-
 # Apply Alpha Beta pruning and return the tree value and the best action
 # Hint: Read the hint for minimax.
 def alphabeta(game: Game[S, A], state: S, heuristic: HeuristicFunction, max_depth: int = -1) -> Tuple[float, A]:
-    #TODO: Write this function
-    # NotImplemented() 
+    '''
+        Algorithm:
+        1. Check if the state is terminal, if so return the value of the state
+        2. Check if the max depth is reached, if so return the heuristic value of the state
+        3. If it is the player's turn (max node), return the action that leads to the maximum value of the heuristic function
+        4. If it is the monster's turn (min node), return the action that leads to the minimum value of the heuristic function
+        5. If the beta value is less than or equal to the alpha value then we can prune the rest of the tree as it will not be considered in the final evaluation
+    '''
     
     def alphabeta_helper(state, alpha, beta, depth): #helper function to implement alpha beta pruning to take the state, alpha, beta and depth as input
         agent = game.get_turn(state) #returns the turn of the player. 0 for player, 1 for monster, 2 for monster 2, etc.
@@ -107,6 +82,14 @@ def alphabeta_with_move_ordering(game: Game[S, A], state: S, heuristic: Heuristi
     # same as alpha beta pruning but with move ordering (sorting) of actions to improve the performance
     # this makes the algorithm more efficient as it will prune the tree more efficiently
     def alphabeta_helper(state, alpha, beta, depth):
+        '''
+            Algo:
+            1. Check if the state is terminal, if so return the value of the state
+            2. Check if the max depth is reached, if so return the heuristic value of the state
+            3. If it is the player's turn (max node), return the action that leads to the maximum value of the heuristic function
+            4. If it is the monster's turn (min node), return the action that leads to the minimum value of the heuristic function
+            
+        '''
         agent = game.get_turn(state) #returns the turn of the player. 0 for player, 1 for monster, 2 for monster 2, etc.
 
         terminal, values = game.is_terminal(state) #returns if the state is terminal and return the values for all the agents
@@ -163,10 +146,59 @@ def alphabeta_with_move_ordering(game: Game[S, A], state: S, heuristic: Heuristi
 
     return alphabeta_helper(state, -math.inf, math.inf, max_depth) 
 
+
+# Apply Minimax search and return the game tree value and the best action
+# Hint: There may be more than one player, and in all the testcases, it is guaranteed that 
+# game.get_turn(state) will return 0 (which means it is the turn of the player). All the other players
+# (turn > 0) will be enemies. So for any state "s", if the game.get_turn(s) == 0, it should a max node,
+# and if it is > 0, it should be a min node. Also remember that game.is_terminal(s), returns the values
+# for all the agents. So to get the value for the player (which acts at the max nodes), you need to
+# get values[0].
+def minimax(game: Game[S, A], state: S, heuristic: HeuristicFunction, max_depth: int = -1) -> Tuple[float, A]:
+    '''
+        Algo:
+        1. Check if the state is terminal, if so return the value of the state
+        2. Check if the max depth is reached, if so return the heuristic value of the state
+        3. If it is the player's turn (max node), return the action that leads to the maximum value of the heuristic function
+        4. If it is the monster's turn (min node), return the action that leads to the minimum value of the heuristic function
+
+    '''
+    agent = game.get_turn(state) #returns the turn of the player. 0 for player, 1 for monster, 2 for monster 2, etc. 
+
+    terminal, values = game.is_terminal(state) #returns if the state is terminal and return the values for all the agents
+    if terminal: return values[agent], None
+
+    if max_depth == 0: #if we have reached the maximum depth
+        if agent == 0: #if it is the player's turn (max node) return the heuristic value
+            return heuristic(game, state, agent), None
+        else: #if it is the monster's turn (min node) return the negative of the heuristic value
+            return -heuristic(game, state, agent), None
+
+    #get all the actions and the resulting states
+    actions_states = [(action, game.get_successor(state, action)) for action in game.get_actions(state)] 
+
+    if agent == 0: #if it is the player's turn (max node) return the action that leads to the maximum value of the heuristic function 
+        # the -index is used to break ties in the case of multiple actions with the same value
+        # max_depth-1 is used to decrease the depth by 1 for each recursive call
+        value, _, action = max((minimax(game, state, heuristic, max_depth-1)[0], -index, action) for index, (action , state) in enumerate(actions_states))
+    else: #if it is the monster's turn (min node) return the action that leads to the minimum value of the heuristic function
+        value, _, action = min((minimax(game, state, heuristic, max_depth-1)[0], -index, action) for index, (action , state) in enumerate(actions_states))
+
+    return value, action 
+
+
 # Apply Expectimax search and return the tree value and the best action
 # Hint: Read the hint for minimax, but note that the monsters (turn > 0) do not act as min nodes anymore,
 # they now act as chance nodes (they act randomly).
 def expectimax(game: Game[S, A], state: S, heuristic: HeuristicFunction, max_depth: int = -1) -> Tuple[float, A]:
+    '''
+        Algo:
+        1. Check if the state is terminal, if so return the value of the state
+        2. Check if the max depth is reached, if so return the heuristic value of the state
+        3. If it is the player's turn (max node), return the action that leads to the maximum value of the heuristic function
+        4. If it is the monster's turn (chance node), return the action that leads to the average value of the heuristic function
+        
+    '''
     # Chance nodes take the average of all available values giving us the ‘expected value’ of the node.
     
     def expectimax_helper(state, depth):
