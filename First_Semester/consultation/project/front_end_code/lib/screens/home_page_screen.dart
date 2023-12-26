@@ -7,6 +7,7 @@ import 'package:front_end_code/models/match_model.dart';
 import 'package:front_end_code/networks/constant_end_points.dart';
 import 'package:front_end_code/networks/dio_helper.dart';
 import 'package:front_end_code/screens/add_match_screen.dart';
+import 'package:front_end_code/screens/approve_requests_screen.dart';
 import 'package:front_end_code/screens/login_screen.dart';
 import 'package:front_end_code/screens/reserve_a_seat_screen.dart';
 import 'package:front_end_code/widgets/custom_snackbar.dart';
@@ -390,6 +391,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
           actionsIconTheme: const IconThemeData(color: Colors.amber),
           elevation: 30,
+          leadingWidth: 250,
           leading: role == "Fan"
               ? IconButton(
                   tooltip: "Reserve a Seat!",
@@ -403,16 +405,31 @@ class _MyHomePageState extends State<MyHomePage> {
                         .pushNamed(ResearveASeatScreen.routeName);
                   },
                 )
-              : IconButton(
-                  onPressed: () {
-                     Navigator.of(context)
-                    .pushNamed(AddMatchScreen.routeName);
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.amber,
-                  ),
-                  tooltip: "Add match",
+              : Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(AddMatchScreen.routeName);
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.amber,
+                      ),
+                      tooltip: "Add match",
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(AllRequestsScreen.routeName);
+                      },
+                      icon: const Icon(
+                        Icons.add_task_rounded,
+                        color: Colors.amber,
+                      ),
+                      tooltip: "All requests",
+                    ),
+                  ],
                 ),
           actions: [
             IconButton(
@@ -490,8 +507,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             role == "Fan"
                 ? Navigator.of(context).pushNamed(ResearveASeatScreen.routeName)
-                : Navigator.of(context)
-                    .pushNamed(AddMatchScreen.routeName);
+                : Navigator.of(context).pushNamed(AddMatchScreen.routeName);
           },
           tooltip: role == "Fan" ? 'reserve your ticket now!' : 'Add new match',
           child: GestureDetector(

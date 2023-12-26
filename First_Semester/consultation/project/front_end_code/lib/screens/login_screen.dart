@@ -444,7 +444,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DropdownButton<String>(
-                    value: role,
+                    value: selected_role,
                     dropdownColor: Colors.amber,
                     icon: const Icon(Icons.no_sim_rounded),
                     iconSize: 0,
@@ -460,7 +460,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                     onChanged: (String? newValue) {
                       setState(() {
-                        role = newValue!;
+                        selected_role = newValue!;
                       });
                     },
                     items: ['Fan', 'Manager']
