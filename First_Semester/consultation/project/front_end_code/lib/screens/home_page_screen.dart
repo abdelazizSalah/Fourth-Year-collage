@@ -1,11 +1,16 @@
-import 'package:flutter/gestures.dart';
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:front_end_code/models/match_model.dart';
 import 'package:front_end_code/networks/constant_end_points.dart';
 import 'package:front_end_code/networks/dio_helper.dart';
+import 'package:front_end_code/screens/add_match_screen.dart';
 import 'package:front_end_code/screens/login_screen.dart';
+import 'package:front_end_code/screens/reserve_a_seat_screen.dart';
 import 'package:front_end_code/widgets/custom_snackbar.dart';
+import 'package:front_end_code/widgets/largeMatchWidget.dart';
 import 'package:front_end_code/widgets/match_widget.dart';
 import 'package:front_end_code/widgets/newsWidget.dart';
 
@@ -19,6 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var load = false;
   Widget homeTab() {
     final mediaQuery = MediaQuery.of(context);
     return Container(
@@ -80,15 +86,200 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  final profileData = [
+    [
+      ' abdelazizSalah',
+      Icons.person,
+    ], // must be unique], // must be unique
+    [
+      ' abdelaziz',
+      Icons.abc,
+    ], // must be unique],
+    [
+      ' salah',
+      Icons.abc_rounded,
+    ], // must be unique],
+
+    [
+      ' abdelaziz132001@gmail.com',
+      Icons.email,
+    ], // must be unique],
+    [
+      ' 1/3/2001',
+      Icons.date_range,
+    ], // must be unique],
+    [
+      ' Male',
+      Icons.male,
+    ], // must be unique],
+    [
+      ' Cairo',
+      Icons.cabin,
+    ], // must be unique],
+    [
+      ' Egypt',
+      Icons.cabin_rounded,
+    ], // must be unique],
+    [
+      ' Fan',
+      Icons.radar_sharp,
+    ], // must be unique], // manager / fan
+  ];
+
+  var loadProfile = false;
+  void getProfileFromBackend() async {
+    loadProfile = true;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(customSnackBar('Here are all your information', true));
+
+    // await DioHelper.getData(path: profile).then((response) async {
+    //   if (response.statusCode == 200) {
+    //     print("The Response");
+    //     print(response);
+    //     var myMap = DioHelper.gettingJsonResponse(response);
+    //     print(myMap);
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //         customSnackBar('Here are all your information', true));
+    //     // for (int i = 0; i < myMap.length; i++) {
+    //     //   matches.add(matchModel.fromJson(myMap[i]));
+    //     // }
+    //   } else {
+    //     customSnackBar('Something went wrong, please try again!', false);
+    //   }
+    // }).catchError((error) {
+    //   print(error);
+    //   error = error as DioError;
+    //   ScaffoldMessenger.of(context)
+    //       .showSnackBar(customSnackBar("Something went wrong!", false));
+    // }).timeout(const Duration(seconds: 10), onTimeout: () {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //       customSnackBar('Connection timeout, please try again!', false));
+    // });
+    setState(() {
+      loadProfile = false;
+    });
+  }
+
   Widget profileTab() {
-    return Container(
-      color: const Color.fromARGB(91, 76, 175, 79),
-    );
+    if (role != noRole) {
+      getProfileFromBackend();
+    }
+    final mediaQuery = MediaQuery.of(context);
+
+    return role != noRole
+        ? const Center(
+            child: Text(
+              "Please Log in or Sign up",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  fontFamily: "RubikBubbles",
+                  color: Colors.amber),
+            ),
+          )
+        : loadProfile
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('./assets/imgs/stadium_background.png'),
+                      fit: BoxFit.cover,
+                      opacity: 1.0,
+                    ),
+                    color: Colors.transparent),
+                child: Padding(
+                  padding: const EdgeInsets.all(40.0),
+                  child: Card(
+                    elevation: 50,
+                    color: const Color.fromARGB(76, 255, 193, 7),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          // flex: ,
+                          child: CircleAvatar(
+                            // backgroundImage: ,
+                            backgroundColor: Colors.transparent,
+                            child: Image.asset(
+                              './assets/imgs/profile.jpg',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: mediaQuery.size.width > 1100
+                                    ? 3
+                                    : mediaQuery.size.width > 1000
+                                        ? 2
+                                        : 1,
+                                mainAxisExtent: 50,
+                                crossAxisSpacing: 3,
+                                childAspectRatio: 3,
+                              ),
+                              itemCount: profileData.length,
+                              itemBuilder: (ctx, idx) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 400,
+                                    child: TextField(
+                                      // maxLength: 35,
+                                      enabled: false,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'RubikBubbles',
+                                          fontSize: 20),
+                                      decoration: InputDecoration(
+                                        hintText: profileData[idx][0] as String,
+                                        icon: Icon(
+                                            profileData[idx][1] as IconData,
+                                            color: Colors.amber,
+                                            size: 35),
+                                        hintStyle: const TextStyle(
+                                            color: Color.fromARGB(
+                                                235, 255, 255, 255),
+                                            fontFamily: 'RubikBubbles'),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
   }
 
   Widget matchesTab() {
     return Container(
-      color: const Color.fromARGB(91, 33, 149, 243),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('./assets/imgs/stadium_background.png'),
+            fit: BoxFit.cover,
+            opacity: 1.0,
+          ),
+          color: Colors.transparent),
+      child: ListView.builder(
+          itemCount: matches.length,
+          itemBuilder: (ctx, idx) {
+            return LargeMatchWidget(
+              date: matches[idx].date,
+              team1: matches[idx].homeTeam,
+              team2: matches[idx].awayTeam,
+              lineMan1: matches[idx].linesman1,
+              lineMan2: matches[idx].linesman2,
+              refree: matches[idx].referee,
+              team1Img: matches[idx].homeTeamImg,
+              team2Img: matches[idx].awayTeamImg,
+            );
+          }),
     );
   }
 
@@ -111,13 +302,18 @@ class _MyHomePageState extends State<MyHomePage> {
     final user;
     await DioHelper.getData(path: getHome).then((response) async {
       if (response.statusCode == 200) {
-        var myMap = DioHelper.gettingJsonResponse(response);
+        final responseAsJSON = jsonDecode(response.toString());
+        final myMap = {};
+        for (var i = 0; i < responseAsJSON.length; i++) {
+          print(responseAsJSON[i]);
 
+          responseAsJSON[i].forEach((key, value) {
+            myMap.addAll({key: value});
+          });
+          print(myMap);
+        }
         ScaffoldMessenger.of(context).showSnackBar(
             customSnackBar('Today we have a lot of interesting games!', true));
-        // for (int i = 0; i < myMap.length; i++) {
-        //   matches.add(matchModel.fromJson(myMap[i]));
-        // }
 
         matches.add(matchModel.fromJson(myMap));
         matches[1].homeTeamImg = './assets/imgs/Masry.png';
@@ -141,6 +337,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    role = "Manager";
     if (!getMatches) connectWithBackendLogin();
     final mediaQuery = MediaQuery.of(context);
     return DefaultTabController(
@@ -192,6 +389,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]),
               ]),
           actionsIconTheme: const IconThemeData(color: Colors.amber),
+          elevation: 30,
+          leading: role == "Fan"
+              ? IconButton(
+                  tooltip: "Reserve a Seat!",
+                  icon: const Icon(
+                    Icons.reset_tv_rounded,
+                    color: Colors.amber,
+                  ),
+                  onPressed: () {
+                    // navigate to a studim
+                    Navigator.of(context)
+                        .pushNamed(ResearveASeatScreen.routeName);
+                  },
+                )
+              : IconButton(
+                  onPressed: () {
+                     Navigator.of(context)
+                    .pushNamed(AddMatchScreen.routeName);
+                  },
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.amber,
+                  ),
+                  tooltip: "Add match",
+                ),
           actions: [
             IconButton(
               onPressed: () {},
@@ -265,8 +487,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          tooltip: 'reserve your ticket now!',
+          onPressed: () {
+            role == "Fan"
+                ? Navigator.of(context).pushNamed(ResearveASeatScreen.routeName)
+                : Navigator.of(context)
+                    .pushNamed(AddMatchScreen.routeName);
+          },
+          tooltip: role == "Fan" ? 'reserve your ticket now!' : 'Add new match',
           child: GestureDetector(
               child: const Icon(
             Icons.add,

@@ -83,14 +83,15 @@ class DioHelper {
     final responseAsJSON = jsonDecode(response.toString());
     final myMap = {};
     print(responseAsJSON.length);
-    for (var i = 0; i < responseAsJSON.length; i++) {
-      print(responseAsJSON[i]);
-      
-      responseAsJSON[i].forEach((key, value) {
-        myMap.addAll({key: value});
-      });
-      print(myMap);
-    }
+    print(responseAsJSON);
+    // for (var i = 0; i < responseAsJSON.length; i++) {
+    //   print(responseAsJSON[i]);
+
+    //   responseAsJSON[i].forEach((key, value) {
+    //     myMap.addAll({key: value});
+    //   });
+    //   print(myMap);
+    // }
     print('after');
     print(myMap);
     return myMap;

@@ -81,12 +81,12 @@ class _LogInScreenState extends State<LogInScreen> {
         .then((response) async {
       if (response.statusCode == 200) {
         // converting the response into map
-        final myMap = DioHelper.gettingJsonResponse(response);
+        // final myMap = DioHelper.gettingJsonResponse(response);
 
         /// saving the token and the username in the shared preferences
-        CacheHelper.putData(key: 'token', value: myMap['token']);
+        // CacheHelper.putData(key: 'token', value: response.data['token']);
         // CacheHelper.putData(key: 'role', value: myMap['role']);
-        token = CacheHelper.getData(key: 'token');
+        // token = CacheHelper.getData(key: 'token');
         // role = CacheHelper.getData(key: 'role');
         // navigate to the main screen
         // here we should connect to the back end, and if it returned the token
