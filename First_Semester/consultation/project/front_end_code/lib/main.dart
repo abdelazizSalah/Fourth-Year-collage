@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_code/data/routes.dart';
+import 'package:front_end_code/networks/dio_helper.dart';
 import 'package:front_end_code/screens/login_screen.dart';
+import 'package:front_end_code/shared_preferences.dart/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  DioHelper.init();
+  CacheHelper.init();
   runApp(const MyApp());
 }
 

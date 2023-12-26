@@ -3,10 +3,16 @@
 /// this is a file contaning the constant baseURL and the endpoints of the API
 
 const baseUrl =
-    'https://fathomless-plateau-73365-c7cf2bb94e67.herokuapp.com/'; // real account
+    'https://91b89e87-407b-4eda-a04d-36c13c437f1c.mock.pstmn.io'; // mock server.
 
 //? user data
 const noToken = 'noToken';
 const noRole = 'noRole';
+var role = noRole;
 var token = noToken;
-
+const getHome = '/home/view';
+const profile =
+    '/api/v1/user/profile/{username}'; // username should be dynamic.
+const signUp = '/api/v1/auth/register';
+const logIn = '/api/v1/auth/authenticate';
+// const getHome = '/home/view';

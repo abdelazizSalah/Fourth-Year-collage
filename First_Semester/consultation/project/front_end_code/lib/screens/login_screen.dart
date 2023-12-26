@@ -1,5 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:front_end_code/models/log_in_model.dart';
+import 'package:front_end_code/models/sign_up_model.dart';
 import 'package:front_end_code/models/validators.dart';
+import 'package:front_end_code/networks/constant_end_points.dart';
+import 'package:front_end_code/networks/dio_helper.dart';
+import 'package:front_end_code/screens/home_page_screen.dart';
+import 'package:front_end_code/shared_preferences.dart/shared_preferences.dart';
 import 'package:front_end_code/widgets/common_appbar.dart';
 import 'package:front_end_code/widgets/custom_snackbar.dart';
 
@@ -14,12 +21,14 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   bool buildLogIn = false;
   final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
+  final userNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final addressController = TextEditingController();
+  final birthdateController = TextEditingController();
   final cityController = TextEditingController();
-  final schoolController = TextEditingController();
   final validators = {
     ' email': isEmail,
     ' password': signinPassword,
@@ -31,19 +40,126 @@ class _LogInScreenState extends State<LogInScreen> {
     ' lastName': isName,
     // continue the validators.
   };
-  void join() {
+  late final controllers;
+  @override
+  void initState() {
+    super.initState();
+    controllers = {
+      ' email': emailController,
+      ' password': passwordController,
+      ' userName': userNameController,
+      ' adress': addressController,
+      ' birthDate': birthdateController,
+      ' city': cityController,
+      ' firstName': firstNameController,
+      ' lastName': lastNameController,
+    };
+  }
+
+  void join(endPoint) {
     if (_formKey.currentState!.validate()) {
-      // connectWithBackend();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(customSnackBar('Welcome Back!', true));
+      if (endPoint == logIn) {
+        connectWithBackendLogin();
+      } else {
+        connectWithBackendRegister();
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           customSnackBar('Please fill all fields correctly!', false));
     }
   }
 
+  void connectWithBackendLogin() async {
+    role = "Fan";
+
+    final user = LogInModel(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        role: "Fan");
+
+    await DioHelper.postData(path: logIn, data: user.toJson())
+        .then((response) async {
+      if (response.statusCode == 200) {
+        // converting the response into map
+        final myMap = DioHelper.gettingJsonResponse(response);
+
+        /// saving the token and the username in the shared preferences
+        CacheHelper.putData(key: 'token', value: myMap['token']);
+        // CacheHelper.putData(key: 'role', value: myMap['role']);
+        token = CacheHelper.getData(key: 'token');
+        // role = CacheHelper.getData(key: 'role');
+        // navigate to the main screen
+        // here we should connect to the back end, and if it returned the token
+        // we should store it in the local cache, then navigate to the main screen.
+        ScaffoldMessenger.of(context)
+            .showSnackBar(customSnackBar('Welcome our new Member!', true));
+        //! back to push named because replacement causes an error.
+        Navigator.pushReplacementNamed(context, MyHomePage.routeName);
+      } else {
+        customSnackBar('Something went wrong, please try again!', false);
+      }
+    }).catchError((error) {
+      print(error);
+      error = error as DioError;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(customSnackBar("Something went wrong!", false));
+    }).timeout(const Duration(seconds: 10), onTimeout: () {
+      ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar('Connection timeout, please try again!', false));
+    });
+  }
+
+  void connectWithBackendRegister() async {
+    role = "Fan";
+    print(role);
+    final user = SignUpModel(
+      firstName: firstNameController.text.trim(),
+      lastName: lastNameController.text.trim(),
+      password: passwordController.text.trim(),
+      role: "Fan",
+    );
+    print(user.firstName);
+    print(user.lastName);
+    print(user.password);
+    print(user.role);
+    print('before post man');
+    await DioHelper.postData(path: signUp, data: user.toJson())
+        .then((response) async {
+      if (response.statusCode == 200) {
+        print('response = 200');
+        // converting the response into map
+        final myMap = DioHelper.gettingJsonResponse(response);
+
+        /// saving the token and the username in the shared preferences
+        CacheHelper.putData(key: 'token', value: myMap['token']);
+        // CacheHelper.putData(key: 'role', value: myMap['role']);
+        token = CacheHelper.getData(key: 'token');
+        // role = CacheHelper.getData(key: 'role');
+        // navigate to the main screen
+        // here we should connect to the back end, and if it returned the token
+        // we should store it in the local cache, then navigate to the main screen.
+        //! back to push named because replacement causes an error.
+        Navigator.pushNamed(context, MyHomePage.routeName);
+        customSnackBar('Welcome back fan!', true);
+      } else {
+        print('error');
+        customSnackBar('Something went wrong, please try again!', false);
+      }
+    }).catchError((error) {
+      print('error');
+      print(error);
+      error = error as DioError;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(customSnackBar("Something went wrong!", false));
+    }).timeout(const Duration(seconds: 10), onTimeout: () {
+      print('error');
+      ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar('Connection timeout, please try again!', false));
+    });
+  }
+
   Widget buildLoginLayout(double textScaleFactor) {
-    nameController.clear();
+    userNameController.clear();
     passwordController.clear();
     return Form(
       key: _formKey,
@@ -108,7 +224,11 @@ class _LogInScreenState extends State<LogInScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // show snackbar
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        customSnackBar('Please contact the admin!', false));
+                  },
                   child: Text(
                     'Forgot Password?',
                     style: TextStyle(
@@ -121,7 +241,9 @@ class _LogInScreenState extends State<LogInScreen> {
               Container(
                 margin: const EdgeInsets.all(10),
                 child: ElevatedButton(
-                  onPressed: join,
+                  onPressed: () {
+                    join(logIn);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.amber,
                     shape: RoundedRectangleBorder(
@@ -235,7 +357,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 Padding(
                   padding: const EdgeInsets.all(0.0),
                   child: DropdownButton<String>(
-                    value: role,
+                    value: selected_role,
                     dropdownColor: Colors.amber,
                     icon: const Icon(Icons.no_sim_rounded),
                     iconSize: 0,
@@ -251,7 +373,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                     onChanged: (String? newValue) {
                       setState(() {
-                        role = newValue!;
+                        selected_role = newValue!;
                       });
                     },
                     items: ['Fan', 'Manager']
@@ -363,7 +485,9 @@ class _LogInScreenState extends State<LogInScreen> {
       Container(
         margin: const EdgeInsets.all(10),
         child: ElevatedButton(
-          onPressed: join,
+          onPressed: () {
+            join(signUp);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
             shape: RoundedRectangleBorder(
@@ -404,7 +528,7 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   String gender = 'Male';
-  String role = 'Fan';
+  String selected_role = 'Fan';
   Widget buildRegiesterLayout(double textScaleFactor, bool horizontal) {
     return Form(
       key: _formKey,
@@ -423,6 +547,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                          controller: controllers[element[0]],
                           validator: (value) => validators[element[0]]!(value!),
                           obscureText: element[0] == ' password',
                           style: TextStyle(

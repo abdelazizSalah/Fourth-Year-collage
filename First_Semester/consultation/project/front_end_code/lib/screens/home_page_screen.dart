@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:front_end_code/networks/constant_end_points.dart';
 import 'package:front_end_code/screens/login_screen.dart';
 import 'package:front_end_code/widgets/match_widget.dart';
 import 'package:front_end_code/widgets/newsWidget.dart';
@@ -133,26 +134,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             // circular avatar contains text to sign in
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(LogInScreen.routeName);
-              },
-              child: Container(
-                margin: const EdgeInsets.only(right: 30),
-                // it should be rounded
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).colorScheme.background,
-                ),
-                child: const Text(
-                  'Log In',
-                  style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 20,
-                      fontFamily: 'RubikBubbles'),
-                ),
-              ),
-            ),
+            role == noRole
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(LogInScreen.routeName);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 30),
+                      // it should be rounded
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                      child: const Text(
+                        'Log In',
+                        style: TextStyle(
+                            color: Colors.amber,
+                            fontSize: 20,
+                            fontFamily: 'RubikBubbles'),
+                      ),
+                    ),
+                  )
+                : CircleAvatar(
+                    // backgroundImage: ,
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset(
+                      './assets/imgs/profile.jpg',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
           ],
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Row(mainAxisSize: MainAxisSize.min, children: [

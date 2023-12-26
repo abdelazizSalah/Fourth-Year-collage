@@ -5,7 +5,6 @@
 /// and deal with the server
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:front_end_code/shared_preferences.dart/shared_preferences.dart';
 import 'constant_end_points.dart';
 
@@ -17,6 +16,7 @@ class DioHelper {
   /// and the limits for the timeouts
   /// and the headers
   static init() {
+    print('initializing Dio');
     dio = Dio(
       BaseOptions(
         /// this is the base url for our dio connections
