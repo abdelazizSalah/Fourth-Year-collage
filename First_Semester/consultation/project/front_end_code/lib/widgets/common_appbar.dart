@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_code/screens/home_page_screen.dart';
+import 'package:front_end_code/screens/login_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -27,8 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         // circular avatar contains text to sign in
         GestureDetector(
           onTap: () {
-            //! TODO: implement sign in
-            print('Sign in');
+            Navigator.of(context).pushNamed(LogInScreen.routeName);
           },
           child: Container(
             margin: const EdgeInsets.only(right: 30),

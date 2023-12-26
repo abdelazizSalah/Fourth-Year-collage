@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:front_end_code/screens/login_screen.dart';
 import 'package:front_end_code/widgets/match_widget.dart';
 import 'package:front_end_code/widgets/newsWidget.dart';
 
@@ -134,8 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // circular avatar contains text to sign in
             GestureDetector(
               onTap: () {
-                //! TODO: implement sign in
-                print('Sign in');
+                Navigator.of(context).pushNamed(LogInScreen.routeName);
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 30),

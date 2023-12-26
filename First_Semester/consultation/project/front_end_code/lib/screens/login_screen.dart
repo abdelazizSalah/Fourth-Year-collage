@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_end_code/models/validators.dart';
 import 'package:front_end_code/widgets/common_appbar.dart';
+import 'package:front_end_code/widgets/custom_snackbar.dart';
 
 class LogInScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -11,96 +13,133 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   bool buildLogIn = false;
+  final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final phoneController = TextEditingController();
+  final cityController = TextEditingController();
+  final schoolController = TextEditingController();
+  final validators = {
+    ' email': isEmail,
+    ' password': signinPassword,
+    ' userName': isName,
+    ' adress': isName,
+    ' birthDate': isName,
+    ' city': isGovernorate,
+    ' firstName': isName,
+    ' lastName': isName,
+    // continue the validators.
+  };
+  void join() {
+    if (_formKey.currentState!.validate()) {
+      // connectWithBackend();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(customSnackBar('Welcome Back!', true));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar('Please fill all fields correctly!', false));
+    }
+  }
+
   Widget buildLoginLayout(double textScaleFactor) {
-    return Expanded(
-        flex: 5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // margin: const EdgeInsets.only(top: 10),
-            Text('Welcome Back!',
+    nameController.clear();
+    passwordController.clear();
+    return Form(
+      key: _formKey,
+      child: Expanded(
+          flex: 5,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              // margin: const EdgeInsets.only(top: 10),
+              Text('Welcome Back!',
 
-                // it should be underlined
+                  // it should be underlined
 
-                style: TextStyle(
-                    color: Colors.amber,
-                    fontFamily: 'RubikBubbles',
-                    fontSize: 35 * textScaleFactor)),
-
-            // input text field
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: TextField(
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'RubikBubbles',
-                    fontSize: 20 * textScaleFactor),
-                decoration: InputDecoration(
-                  hintText: 'Username',
-                  icon: Icon(Icons.person,
-                      color: Colors.amber, size: 35 * textScaleFactor),
-                  hintStyle: const TextStyle(
-                      color: Colors.black, fontFamily: 'RubikBubbles'),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 5),
-              child: TextField(
-                obscureText: true,
-                style: const TextStyle(
-                    color: Colors.black, fontFamily: 'RubikBubbles'),
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  hintStyle: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'RubikBubbles',
-                      fontSize: 20 * textScaleFactor),
-                  // change the inserted text style
-                  counterStyle: const TextStyle(color: Colors.red),
-
-                  icon: Icon(
-                    Icons.password,
-                    color: Colors.amber,
-                    size: 35 * textScaleFactor,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Forgot Password?',
                   style: TextStyle(
-                      fontFamily: 'RubikBubbles',
                       color: Colors.amber,
-                      fontSize: 14 * textScaleFactor),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  'Log In',
+                      fontFamily: 'RubikBubbles',
+                      fontSize: 35 * textScaleFactor)),
+
+              // input text field
+              Container(
+                margin: const EdgeInsets.all(10),
+                child: TextFormField(
+                  // maxLength: 35,
+                  validator: (value) => validators[' userName']!(value!),
                   style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'RubikBubbles',
                       fontSize: 20 * textScaleFactor),
+                  decoration: InputDecoration(
+                    hintText: 'Username',
+                    icon: Icon(Icons.person,
+                        color: Colors.amber, size: 35 * textScaleFactor),
+                    hintStyle: const TextStyle(
+                        color: Colors.black, fontFamily: 'RubikBubbles'),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ));
+              Container(
+                margin: const EdgeInsets.only(bottom: 5),
+                child: TextFormField(
+                  validator: (value) => validators[' password']!(value!),
+                  obscureText: true,
+                  style: const TextStyle(
+                      color: Colors.black, fontFamily: 'RubikBubbles'),
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    hintStyle: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'RubikBubbles',
+                        fontSize: 20 * textScaleFactor),
+                    // change the inserted text style
+                    counterStyle: const TextStyle(color: Colors.red),
+
+                    icon: Icon(
+                      Icons.password,
+                      color: Colors.amber,
+                      size: 35 * textScaleFactor,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                        fontFamily: 'RubikBubbles',
+                        color: Colors.amber,
+                        fontSize: 14 * textScaleFactor),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                  onPressed: join,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'RubikBubbles',
+                        fontSize: 20 * textScaleFactor),
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
   }
 
   final newMemberData = [
@@ -319,47 +358,110 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
+  List<Widget> LogRest(double textScaleFactor) {
+    return [
+      Container(
+        margin: const EdgeInsets.all(10),
+        child: ElevatedButton(
+          onPressed: join,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            'Log In',
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'RubikBubbles',
+                fontSize: 20 * textScaleFactor),
+          ),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.all(10),
+        child: ElevatedButton(
+          onPressed: () {
+            _formKey.currentState!.reset();
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            'Reset',
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'RubikBubbles',
+                fontSize: 20 * textScaleFactor),
+          ),
+        ),
+      ),
+    ];
+  }
+
   String gender = 'Male';
   String role = 'Fan';
   Widget buildRegiesterLayout(double textScaleFactor, bool horizontal) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        Text('Welcome to EPL Reservo!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.amber,
-                fontFamily: 'RubikBubbles',
-                fontSize: 28 * textScaleFactor)),
+    return Form(
+      key: _formKey,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Text('Welcome to EPL Reservo!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.amber,
+                  fontFamily: 'RubikBubbles',
+                  fontSize: 28 * textScaleFactor)),
 
-        ...newMemberData
-            .map((element) => SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                        obscureText: element[0] == ' password',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'RubikBubbles',
-                            fontSize: 20 * textScaleFactor),
-                        decoration: InputDecoration(
-                          icon: Icon(element[1] as IconData,
-                              color: Colors.amber, size: 35 * textScaleFactor),
-                          hintText: element[0] as String,
-                          hintStyle: TextStyle(
-                              color: Colors.black87,
+          ...newMemberData
+              .map((element) => SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                          validator: (value) => validators[element[0]]!(value!),
+                          obscureText: element[0] == ' password',
+                          style: TextStyle(
+                              color: Colors.black,
                               fontFamily: 'RubikBubbles',
                               fontSize: 20 * textScaleFactor),
-                          // change the inserted text style
-                          counterStyle: const TextStyle(color: Colors.red),
-                        )),
-                  ),
-                ))
-            .toList(),
+                          decoration: InputDecoration(
+                            icon: Icon(element[1] as IconData,
+                                color: Colors.amber,
+                                size: 35 * textScaleFactor),
+                            hintText: element[0] as String,
+                            hintStyle: TextStyle(
+                                color: Colors.black87,
+                                fontFamily: 'RubikBubbles',
+                                fontSize: 20 * textScaleFactor),
+                            // change the inserted text style
+                            counterStyle: const TextStyle(color: Colors.red),
+                          )),
+                    ),
+                  ))
+              .toList(),
 
-        // drop down menu for gender
-        buildDropBox(horizontal, textScaleFactor)
-      ],
+          // drop down menu for gender
+          buildDropBox(horizontal, textScaleFactor),
+
+          if (horizontal)
+            Center(
+              child: Wrap(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: LogRest(textScaleFactor),
+              ),
+            )
+          else
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: LogRest(textScaleFactor),
+            )
+        ],
+      ),
     );
   }
 
@@ -449,11 +551,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           : mediaQuery.size.height *
                               (0.4 * (!minHeight ? 1 : 2)),
                       child: ListView(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisSize: MainAxisSize.min,
-                        // itemExtent: 50,
-
                         children: [
                           topButtonsLayout(textScaleFactor),
                           buildLogIn

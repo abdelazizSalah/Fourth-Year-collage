@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
             color: Colors.red,
           ),
           bodySmall: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Whisper',
+            fontSize: 12,
+            // fontWeight: FontWeight.w500,
+            fontFamily: 'RubikBubbles',
             color: Colors.red,
           ),
         ),
