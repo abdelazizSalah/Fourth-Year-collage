@@ -80,12 +80,19 @@ class DioHelper {
   /// @param [response] which is the response returned from the server.
   /// @return [Map] which is the map of the response.
   static Map<dynamic, dynamic> gettingJsonResponse(response) {
-    final responseAsJSON = jsonDecode(response.data);
+    final responseAsJSON = jsonDecode(response.toString());
     final myMap = {};
-    responseAsJSON.forEach((key, value) {
-      myMap.addAll({key: value});
-    });
-
+    print(responseAsJSON.length);
+    for (var i = 0; i < responseAsJSON.length; i++) {
+      print(responseAsJSON[i]);
+      
+      responseAsJSON[i].forEach((key, value) {
+        myMap.addAll({key: value});
+      });
+      print(myMap);
+    }
+    print('after');
+    print(myMap);
     return myMap;
   }
 

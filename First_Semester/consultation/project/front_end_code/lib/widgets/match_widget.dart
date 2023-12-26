@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class MatchWidget extends StatelessWidget {
-  const MatchWidget({super.key});
+  const MatchWidget({
+    super.key,
+    required this.team1,
+    required this.team2,
+    required this.date,
+    required this.team1Img,
+    required this.team2Img,
+  });
+  final String team1;
+  final String team2;
+  final String date;
+  final team1Img;
+  final team2Img;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +34,11 @@ class MatchWidget extends StatelessWidget {
                         height: 50,
                         width: 80,
                         child: Image.asset(
-                          './assets/imgs/epl-logo.png',
+                          team1Img,
                           fit: BoxFit.contain,
                         ),
                       ),
-                      const Text('Team 1'),
+                      Text(team1),
                     ],
                   ),
                   const Text('VS'),
@@ -35,16 +47,15 @@ class MatchWidget extends StatelessWidget {
                       SizedBox(
                         height: 50,
                         width: 80,
-                        child: Image.asset(
-                          './assets/imgs/epl-logo.png',
+                        child: Image.asset(team2Img,
                           fit: BoxFit.contain,
                         ),
                       ),
-                      Text('Team 2'),
+                      Text(team2),
                     ],
                   ),
                 ]),
-            Text('Date'),
+            Text(date),
           ],
         ),
       ),

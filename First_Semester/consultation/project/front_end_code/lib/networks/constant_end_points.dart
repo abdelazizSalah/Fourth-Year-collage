@@ -3,7 +3,8 @@
 /// this is a file contaning the constant baseURL and the endpoints of the API
 
 const baseUrl =
-    'https://91b89e87-407b-4eda-a04d-36c13c437f1c.mock.pstmn.io'; // mock server.
+    // 'https://91b89e87-407b-4eda-a04d-36c13c437f1c.mock.pstmn.io'; // mock server.
+    'https://b6dd0175-1a73-4586-aeca-2b3abf122a4d.mock.pstmn.io'; // mock server.
 
 //? user data
 const noToken = 'noToken';

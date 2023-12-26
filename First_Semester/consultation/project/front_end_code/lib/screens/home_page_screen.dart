@@ -1,7 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:front_end_code/models/match_model.dart';
 import 'package:front_end_code/networks/constant_end_points.dart';
+import 'package:front_end_code/networks/dio_helper.dart';
 import 'package:front_end_code/screens/login_screen.dart';
+import 'package:front_end_code/widgets/custom_snackbar.dart';
 import 'package:front_end_code/widgets/match_widget.dart';
 import 'package:front_end_code/widgets/newsWidget.dart';
 
@@ -16,44 +20,57 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Widget homeTab() {
+    final mediaQuery = MediaQuery.of(context);
     return Container(
       color: Colors.black87,
       child: ListView(
         children: [
-          Expanded(
-            child: SizedBox(
+          SizedBox(
               height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 100,
-                itemBuilder: (context, index) {
-                  return Container(
-                      color: const Color.fromARGB(174, 255, 193, 7),
-                      child: const MatchWidget());
-                },
-              ),
-            ),
-          ),
+              child: getMatches
+                  ? ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: matches.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            color: const Color.fromARGB(174, 255, 193, 7),
+                            child: MatchWidget(
+                              team1: matches[index].homeTeam!,
+                              team2: matches[index].awayTeam!,
+                              date: matches[index].date!,
+                              team1Img: matches[index].homeTeamImg!,
+                              team2Img: matches[index].awayTeamImg!,
+                            ));
+                      },
+                    )
+                  : const Center(child: CircularProgressIndicator())),
           const SizedBox(
             height: 10,
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisExtent: 300,
-                crossAxisSpacing: 5,
-                childAspectRatio: 1,
+          Wrap(children: [
+            SizedBox(
+              height: mediaQuery.size.height,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: mediaQuery.size.width > 1000
+                      ? 3
+                      : mediaQuery.size.width > 900
+                          ? 2
+                          : 1,
+                  mainAxisExtent: mediaQuery.size.width * 0.3,
+                  crossAxisSpacing: 1,
+                  
+                  childAspectRatio: 0.4,
+                ),
+                itemCount: 13,
+                itemBuilder: (context, index) {
+                  return Container(
+                      color: Color.fromARGB(127, 223, 194, 1),
+                      child: const NewsWidet());
+                },
               ),
-              itemCount: 100,
-              itemBuilder: (context, index) {
-                return Container(
-                    color: Color.fromARGB(127, 223, 194, 1),
-                    child: const NewsWidet());
-              },
             ),
-          ),
+          ]),
         ],
       ),
     );
@@ -61,18 +78,66 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget profileTab() {
     return Container(
-      color: Colors.black87,
+      color: const Color.fromARGB(91, 76, 175, 79),
     );
   }
 
   Widget matchesTab() {
     return Container(
-      color: Colors.black87,
+      color: const Color.fromARGB(91, 33, 149, 243),
     );
+  }
+
+  bool getMatches = false;
+  List<matchModel> matches = [
+    matchModel(
+      homeTeam: 'El-Ahly',
+      awayTeam: 'El-Zamalek',
+      date: '12/12/2023',
+      id: 2,
+      linesman1: 'Ahmed Mohamed',
+      linesman2: 'Mohamed Ahmed',
+      referee: 'Ahmed khaled',
+      homeTeamImg: './assets/imgs/ahly.png',
+      awayTeamImg: './assets/imgs/zmalek.jpg',
+    )
+  ];
+  void connectWithBackendLogin() async {
+    print('try to get matches');
+    final user;
+    await DioHelper.getData(path: getHome).then((response) async {
+      if (response.statusCode == 200) {
+        var myMap = DioHelper.gettingJsonResponse(response);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar('Today we have a lot of interesting games!', true));
+        // for (int i = 0; i < myMap.length; i++) {
+        //   matches.add(matchModel.fromJson(myMap[i]));
+        // }
+
+        matches.add(matchModel.fromJson(myMap));
+        matches[1].homeTeamImg = './assets/imgs/Masry.png';
+        matches[1].awayTeamImg = './assets/imgs/pyramids.png';
+        setState(() {
+          getMatches = true;
+        });
+      } else {
+        customSnackBar('Something went wrong, please try again!', false);
+      }
+    }).catchError((error) {
+      print(error);
+      error = error as DioError;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(customSnackBar("Something went wrong!", false));
+    }).timeout(const Duration(seconds: 10), onTimeout: () {
+      ScaffoldMessenger.of(context).showSnackBar(
+          customSnackBar('Connection timeout, please try again!', false));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!getMatches) connectWithBackendLogin();
     final mediaQuery = MediaQuery.of(context);
     return DefaultTabController(
       length: 3,

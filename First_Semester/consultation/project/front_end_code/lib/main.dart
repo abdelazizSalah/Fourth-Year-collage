@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_code/data/routes.dart';
 import 'package:front_end_code/networks/dio_helper.dart';
+import 'package:front_end_code/screens/home_page_screen.dart';
 import 'package:front_end_code/screens/login_screen.dart';
 import 'package:front_end_code/shared_preferences.dart/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,8 +42,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      // home: const MyHomePage(title: 'EPL Reservo'),
-      home: const LogInScreen(),
+      home: const MyHomePage(title: 'EPL Reservo'),
+      // home: const MyHomePage(t),
       routes: routes,
     );
   }
