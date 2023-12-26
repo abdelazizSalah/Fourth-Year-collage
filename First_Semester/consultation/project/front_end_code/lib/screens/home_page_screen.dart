@@ -52,20 +52,24 @@ class _MyHomePageState extends State<MyHomePage> {
               height: mediaQuery.size.height,
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: mediaQuery.size.width > 1000
+                  crossAxisCount: mediaQuery.size.width > 1100
                       ? 3
-                      : mediaQuery.size.width > 900
+                      : mediaQuery.size.width > 1000
                           ? 2
                           : 1,
-                  mainAxisExtent: mediaQuery.size.width * 0.3,
+                  mainAxisExtent: mediaQuery.size.width > 1200
+                      ? mediaQuery.size.width * 0.24
+                      : mediaQuery.size.width > 800
+                          ? mediaQuery.size.width * 0.3
+                          : mediaQuery.size.width * 0.4,
                   crossAxisSpacing: 1,
-                  
-                  childAspectRatio: 0.4,
+                  childAspectRatio: 1,
                 ),
                 itemCount: 13,
                 itemBuilder: (context, index) {
                   return Container(
-                      color: Color.fromARGB(127, 223, 194, 1),
+                      alignment: Alignment.center,
+                      color: const Color.fromARGB(127, 223, 194, 1),
                       child: const NewsWidet());
                 },
               ),
