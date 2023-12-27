@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RequestWidget extends StatelessWidget {
-  const RequestWidget({super.key});
-
+   RequestWidget({super.key, required this.title, this.name});
+  final title;
+  var name; 
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -12,7 +13,7 @@ class RequestWidget extends StatelessWidget {
           backgroundColor: Colors.blue,
         ),
         title: const Text("Abdelaziz"),
-        subtitle: const Text("Match"),
+        subtitle: Text(title),
         trailing: ElevatedButton(
           child: const Text('Approve'),
           onPressed: () {

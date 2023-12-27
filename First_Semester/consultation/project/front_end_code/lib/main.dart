@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_code/data/routes.dart';
+import 'package:front_end_code/networks/constant_end_points.dart';
 import 'package:front_end_code/networks/dio_helper.dart';
 import 'package:front_end_code/screens/home_page_screen.dart';
 import 'package:front_end_code/screens/login_screen.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    role = 'Fan';
     return MaterialApp(
       title: 'EPL Reservo',
       theme: ThemeData(

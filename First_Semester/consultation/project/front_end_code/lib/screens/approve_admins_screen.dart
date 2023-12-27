@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:front_end_code/widgets/common_appbar.dart';
 import 'package:front_end_code/widgets/request_widget.dart';
 
-class AllRequestsScreen extends StatefulWidget {
-  const AllRequestsScreen({super.key});
-  static const routeName = "/all_requests_screen";
+class ApproveAdmins extends StatefulWidget {
+  const ApproveAdmins({super.key});
+  static const routeName = "/approve_authority";
 
   @override
-  State<AllRequestsScreen> createState() => _AllRequestsScreenState();
+  State<ApproveAdmins> createState() => _ApproveAdminsState();
 }
 
-class _AllRequestsScreenState extends State<AllRequestsScreen> {
+class _ApproveAdminsState extends State<ApproveAdmins> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -49,7 +49,7 @@ class _AllRequestsScreenState extends State<AllRequestsScreen> {
                       ),
                     ),
                     key: UniqueKey(),
-                    child:  RequestWidget(title: "Match"));
+                    child: RequestWidget(title: "authority"));
               },
             )));
   }

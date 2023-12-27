@@ -7,6 +7,7 @@ import 'package:front_end_code/models/match_model.dart';
 import 'package:front_end_code/networks/constant_end_points.dart';
 import 'package:front_end_code/networks/dio_helper.dart';
 import 'package:front_end_code/screens/add_match_screen.dart';
+import 'package:front_end_code/screens/approve_admins_screen.dart';
 import 'package:front_end_code/screens/approve_requests_screen.dart';
 import 'package:front_end_code/screens/login_screen.dart';
 import 'package:front_end_code/screens/reserve_a_seat_screen.dart';
@@ -230,7 +231,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     width: 400,
                                     child: TextField(
                                       // maxLength: 35,
-                                      enabled: false,
+                                      enabled: !(profileData[idx][0] ==
+                                              " abdelazizSalah" ||
+                                          profileData[idx][0] ==
+                                              " abdelaziz132001@gmail.com"),
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'RubikBubbles',
@@ -338,7 +342,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    role = "Manager";
     if (!getMatches) connectWithBackendLogin();
     final mediaQuery = MediaQuery.of(context);
     return DefaultTabController(
@@ -391,7 +394,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
           actionsIconTheme: const IconThemeData(color: Colors.amber),
           elevation: 30,
-          leadingWidth: 250,
+          leadingWidth: role != "Fan" ? 400 : 100,
           leading: role == "Fan"
               ? IconButton(
                   tooltip: "Reserve a Seat!",
@@ -428,6 +431,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.amber,
                       ),
                       tooltip: "All requests",
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(ApproveAdmins.routeName);
+                      },
+                      icon: const Icon(
+                        Icons.person,
+                        color: Colors.amber,
+                      ),
+                      tooltip: "All authorities",
                     ),
                   ],
                 ),
