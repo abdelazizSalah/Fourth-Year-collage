@@ -24,17 +24,19 @@ Environment Description:
     Losing the game decreases the reward by 100.
 """
 
+
 # IMPORTANT: This class will be used to store an observation of the snake environment
 @dataclass(frozen=True)
 class SnakeObservation:
-    snake: Tuple[Point]     # The points occupied by the snake body 
-                            # where the head is the first point and the tail is the last  
-    direction: Direction    # The direction that the snake is moving towards
-    apple: Optional[Point]  # The location of the apple. If the game was already won, apple will be None
+    snake: Tuple[Point]  # The points occupied by the snake body
+    # where the head is the first point and the tail is the last
+    direction: Direction  # The direction that the snake is moving towards
+    apple: Optional[
+        Point
+    ]  # The location of the apple. If the game was already won, apple will be None
 
 
 class SnakeEnv(Environment[SnakeObservation, Direction]):
-
     rng: RandomGenerator  # A random generator which will be used to sample apple locations
 
     snake: List[Point]
@@ -53,13 +55,14 @@ class SnakeEnv(Environment[SnakeObservation, Direction]):
 
     def generate_random_apple(self) -> Point:
         """
-        Generates and returns a random apple position which is not on a cell occupied 
+        Generates and returns a random apple position which is not on a cell occupied
         by the snake's body.
         """
         snake_positions = set(self.snake)
-        possible_points = [Point(x, y) 
-            for x in range(self.width) 
-            for y in range(self.height) 
+        possible_points = [
+            Point(x, y)
+            for x in range(self.width)
+            for y in range(self.height)
             if Point(x, y) not in snake_positions
         ]
         return self.rng.choice(possible_points)
@@ -75,10 +78,15 @@ class SnakeEnv(Environment[SnakeObservation, Direction]):
             The starting state of the game, represented as a Point object.
         """
         if seed is not None:
-            self.rng.seed(seed) # Initialize the random generator using the seed
+            self.rng.seed(seed)  # Initialize the random generator using the seed
         # TODO add your code here
         # IMPORTANT NOTE: Define the snake before calling generate_random_apple
-        NotImplemented()
+        x = self.width // 2
+        y = self.height // 2
+        self.snake = [Point(x, y)]
+        self.direction = Direction.LEFT
+        self.apple = self.generate_random_apple()
+        # NotImplemented()
 
         return SnakeObservation(tuple(self.snake), self.direction, self.apple)
 
@@ -87,15 +95,22 @@ class SnakeEnv(Environment[SnakeObservation, Direction]):
         Returns a list of the possible actions that can be taken from the current state of the Snake game.
         Returns:
             A list of Directions, representing the possible actions that can be taken from the current state.
-
         """
-        # TODO add your code here
-        # a snake can wrap around the grid
-        # NOTE: The action order does not matter
+        # Define a dictionary that maps each direction to its valid actions
+        valid_actions_dict = {
+            Direction.RIGHT: [Direction.UP, Direction.DOWN, Direction.NONE],
+            Direction.LEFT: [Direction.UP, Direction.DOWN, Direction.NONE],
+            Direction.UP: [Direction.LEFT, Direction.RIGHT, Direction.NONE],
+            Direction.DOWN: [Direction.LEFT, Direction.RIGHT, Direction.NONE],
+        }
+
+        # Get the current direction of the snake
+        current_direction = self.direction
+
+        return valid_actions_dict[current_direction]
         NotImplemented()
 
-    def step(self, action: Direction) -> \
-            Tuple[SnakeObservation, float, bool, Dict]:
+    def step(self, action: Direction) -> Tuple[SnakeObservation, float, bool, Dict]:
         """
         Updates the state of the Snake game by applying the given action.
 
@@ -110,12 +125,43 @@ class SnakeEnv(Environment[SnakeObservation, Direction]):
             - info (Dict): A dictionary containing any extra information. You can keep it empty.
         """
         # TODO Complete the following function
-        NotImplemented()
 
         done = False
         reward = 0
-        observation = SnakeObservation(tuple(self.snake), self.direction, self.apple)
-        
+
+        if action == Direction.NONE:
+            action = self.direction
+
+        # Move the snake's head in the current direction
+        head = self.snake[0] + action.to_vector()
+
+        # Wrap around grid edges
+        head = Point(head.x % self.width, head.y % self.height)
+        if head == self.apple:
+            # Update the snake's position
+            self.snake.insert(0, head)
+            reward += 1
+
+            # You won ( Snake cover the whole grid )
+            if len(self.snake) == self.width * self.height:
+                reward += 100
+                done = True
+
+            else:
+                # Generate new random apple
+                self.apple = self.generate_random_apple()
+
+        # Check if the head collides with the snake's body
+        elif head in self.snake:
+            reward -= 100
+            done = True
+
+        else:
+            self.snake.insert(0, head)
+            self.snake.pop()
+
+        self.direction = action
+        observation = SnakeObservation(tuple(self.snake), action, self.apple)
         return observation, reward, done, {}
 
     ###########################
@@ -129,13 +175,13 @@ class SnakeEnv(Environment[SnakeObservation, Direction]):
                 p = Point(x, y)
                 if p == self.snake[0]:
                     char = ">^<v"[self.direction]
-                    print(char, end='')
+                    print(char, end="")
                 elif p in self.snake:
-                    print('*', end='')
+                    print("*", end="")
                 elif p == self.apple:
-                    print('$', end='')
+                    print("$", end="")
                 else:
-                    print('.', end='')
+                    print(".", end="")
             print()
         print()
 
@@ -143,34 +189,34 @@ class SnakeEnv(Environment[SnakeObservation, Direction]):
     def parse_state(self, string: str) -> SnakeObservation:
         snake, direction, apple = eval(str)
         return SnakeObservation(
-            tuple(Point(x, y) for x, y in snake), 
-            self.parse_action(direction), 
-            Point(*apple)
+            tuple(Point(x, y) for x, y in snake),
+            self.parse_action(direction),
+            Point(*apple),
         )
-    
+
     # Converts an observation to a string
     def format_state(self, state: SnakeObservation) -> str:
         snake = tuple(tuple(p) for p in state.snake)
         direction = self.format_action(state.direction)
         apple = tuple(state.apple)
         return str((snake, direction, apple))
-    
+
     # Converts a string to an action
     def parse_action(self, string: str) -> Direction:
         return {
-            'R': Direction.RIGHT,
-            'U': Direction.UP,
-            'L': Direction.LEFT,
-            'D': Direction.DOWN,
-            '.': Direction.NONE,
+            "R": Direction.RIGHT,
+            "U": Direction.UP,
+            "L": Direction.LEFT,
+            "D": Direction.DOWN,
+            ".": Direction.NONE,
         }[string.upper()]
-    
+
     # Converts an action to a string
     def format_action(self, action: Direction) -> str:
         return {
-            Direction.RIGHT: 'R',
-            Direction.UP:    'U',
-            Direction.LEFT:  'L',
-            Direction.DOWN:  'D',
-            Direction.NONE:  '.',
+            Direction.RIGHT: "R",
+            Direction.UP: "U",
+            Direction.LEFT: "L",
+            Direction.DOWN: "D",
+            Direction.NONE: ".",
         }[action]
